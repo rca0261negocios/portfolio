@@ -180,6 +180,24 @@ section{position:relative}
 @media (max-width:1150px){.cases{grid-template-columns:1fr 1fr}}
 @media (max-width:700px){.cases{grid-template-columns:1fr}.filters .count{margin-left:0;width:100%}}
 
+/* workflow de termos */
+.wf{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0;padding:0;border-top:1px solid var(--hair);border-left:1px solid var(--hair);counter-reset:n}
+.wf-n{position:relative;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:1.6rem 1.4rem 1.8rem;display:flex;flex-direction:column;gap:.75rem;background:rgba(0,0,0,.18);min-width:0;transition:background-color .5s cubic-bezier(.22,1,.36,1)}
+.wf-n:hover{background:rgba(108,243,163,.06)}
+.wf-n::before{counter-increment:n;content:counter(n,decimal-leading-zero);font-family:var(--f-tag);font-size:.8rem;letter-spacing:.06em;color:var(--signal)}
+.wf-n h3{font-weight:400;font-size:1.25rem;line-height:1.15}
+.wf-n p{color:var(--muted);font-size:.95rem;line-height:1.5}
+.wf-k{font-family:var(--f-tag);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:auto}
+.wf-n.auto{box-shadow:inset 0 2px 0 var(--signal)}
+.wf-n.human{box-shadow:inset 0 2px 0 var(--gold)}
+.wf-n.prazo{box-shadow:inset 0 2px 0 var(--chalk)}
+.wf-n.erro{box-shadow:inset 0 2px 0 #ff8a7a}
+.wf-n.regra{box-shadow:inset 0 2px 0 var(--gold)}
+.wf-legend{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:1.6rem;font-family:var(--f-tag);font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.wf-legend i{display:inline-block;width:.7rem;height:.7rem;margin-right:.45rem;vertical-align:-.05em}
+@media (max-width:1100px){.wf{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.wf{grid-template-columns:1fr}}
+
 /* integrações */
 .int{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(1.5rem,4vw,4rem);align-items:start}
 .map{border:1px solid var(--hair);background:rgba(0,0,0,.28);padding:1rem;min-width:0}
@@ -465,6 +483,31 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   </div>
 </section>
 
+<section id="workflow" class="sec" style="padding-top:0" aria-labelledby="h-wf">
+  <div class="wrap">
+    <div class="head"><span class="tag">[ Workflow ]</span>
+      <div class="head-main"><h2 id="h-wf" class="display">Da elaboração do termo à <span class="hl">assinatura</span></h2>
+        <p>Exemplo anonimizado de fluxo: elaboração, aprovação e assinatura de termos com o cliente, com tratamento de erro e prazos automáticos.</p></div>
+    </div>
+    <ol class="wf">
+      <li class="wf-n auto"><h3>Criar termo</h3><p>Os dados do cliente vêm do processo e o documento é gerado a partir do modelo.</p><span class="wf-k">Automático</span></li>
+      <li class="wf-n human"><h3>Aprovar minuta</h3><p>O jurídico aprova ou devolve para ajuste. A devolução volta ao passo anterior, com o histórico preservado.</p><span class="wf-k">Pessoa · Jurídico</span></li>
+      <li class="wf-n auto"><h3>Enviar para assinatura</h3><p>Envia o documento ao serviço de assinatura eletrônica e acompanha o status de cada signatário.</p><span class="wf-k">Automático</span></li>
+      <li class="wf-n prazo"><h3>Aguardar assinaturas</h3><p>Se o prazo vence sem assinatura, o processo cobra quem falta e registra o atraso.</p><span class="wf-k">Prazo · 480 h comerciais</span></li>
+      <li class="wf-n erro"><h3>Tratar erro e reenviar</h3><p>Falha na integração gera uma tarefa de correção com o motivo, e o envio é refeito depois do ajuste.</p><span class="wf-k">Erro tratado</span></li>
+      <li class="wf-n regra"><h3>Anexar ao GED</h3><p>O documento só é anexado depois que o pagamento do boleto é confirmado.</p><span class="wf-k">Regra · pagamento</span></li>
+      <li class="wf-n auto"><h3>Enviar termo assinado</h3><p>Envia o termo assinado por e-mail ao cliente e tenta de novo se houver erro.</p><span class="wf-k">Automático</span></li>
+      <li class="wf-n auto"><h3>Encerrar processo</h3><p>O processo fica registrado com o histórico completo e o status final.</p><span class="wf-k">Automático</span></li>
+    </ol>
+    <div class="wf-legend">
+      <span><i style="background:var(--signal)"></i>Automático</span>
+      <span><i style="background:var(--gold)"></i>Depende de pessoa ou regra</span>
+      <span><i style="background:var(--chalk)"></i>Prazo</span>
+      <span><i style="background:#ff8a7a"></i>Erro tratado</span>
+    </div>
+  </div>
+</section>
+
 <section id="integracoes" class="sec" style="padding-top:0" aria-labelledby="h-int">
   <div class="wrap">
     <div class="head"><span class="tag">[ Integrações ]</span>
@@ -642,7 +685,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   var rvReduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!rvReduce){
     document.documentElement.classList.add('js');
-    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.partner','card'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
+    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.partner','card'],['.wf-n','card'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
     var rvEls=[];
     rvSets.forEach(function(pair){
       var els=[].slice.call(document.querySelectorAll(pair[0]));
