@@ -271,6 +271,18 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
 .js .vid.rv.in:hover{transform:translateY(-4px)}
 .stat{transition:border-color .5s}
 .stat:hover{border-left-color:var(--gold)}
+/* parceiros */
+.partners{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2vw,1.5rem)}
+.partner{display:flex;align-items:center;gap:1.5rem;padding:1.5rem;text-decoration:none;color:var(--chalk);transition:background-color .5s cubic-bezier(.22,1,.36,1),border-color .5s;min-width:0}
+.partner:hover{background:rgba(108,243,163,.07);border-color:var(--signal)}
+.p-logo{flex:none;width:9.5rem;height:7.5rem;display:flex;align-items:center;justify-content:center;border:1px solid var(--hair);padding:.6rem}
+.p-logo.light{background:#fdfdfd;border-color:#fdfdfd}
+.p-logo img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.p-info{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.p-info b{font-weight:400;font-size:clamp(1.2rem,1.6vw,1.5rem);line-height:1.2}
+.p-info > span:not(.p-go){color:var(--muted);font-size:.95rem;line-height:1.4}
+.p-go{font-family:var(--f-tag);font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);margin-top:.4rem}
+@media (max-width:700px){.partners{grid-template-columns:1fr}}
 /* motion: reveals seguem as specs do Vesper (easeOutQuint, blur-in); só ativam com JS */
 .js .rv{opacity:0;transform:translateY(20px);filter:blur(10px);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1),filter 1s cubic-bezier(.22,1,.36,1);transition-delay:var(--d,0ms)}
 .js .rv.card{transform:perspective(1400px) rotateX(12deg) scale(.94);transform-origin:50% 100%;filter:blur(14px);transition-duration:1.2s}
@@ -566,6 +578,25 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
 </section>
 </main>
 
+<section id="parceiros" class="sec" style="padding-top:0" aria-labelledby="h-par">
+  <div class="wrap">
+    <div class="head"><span class="tag">[ Parceiros ]</span>
+      <div class="head-main"><h2 id="h-par" class="display">Consultorias do ecossistema TOTVS</h2>
+        <p>Empresas com as quais trabalhei ao longo da trajetória no Fluig.</p></div>
+    </div>
+    <div class="partners">
+      <a class="paper partner" href="https://primmeone.com.br/" target="_blank" rel="noopener">
+        <span class="p-logo light"><img src="media/logos/primme-one.png" width="864" height="753" loading="lazy" alt="Logo da Primme One"></span>
+        <span class="p-info"><b>Primme One</b><span>Consultoria em gestão, ERP e Business Intelligence</span><span class="p-go">primmeone.com.br &nearr;</span></span>
+      </a>
+      <a class="paper partner" href="https://www.sm2ce.com.br/" target="_blank" rel="noopener">
+        <span class="p-logo"><img src="media/logos/sm2.png" width="123" height="200" loading="lazy" alt="Logo da SM2"></span>
+        <span class="p-info"><b>SM2</b><span>Consultoria Especializada</span><span class="p-go">sm2ce.com.br &nearr;</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <footer id="contato">
   <div class="wrap">
     <h2 class="display">Vamos olhar o seu <span class="hl">processo.</span></h2>
@@ -601,7 +632,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   var rvReduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!rvReduce){
     document.documentElement.classList.add('js');
-    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
+    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.partner','card'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
     var rvEls=[];
     rvSets.forEach(function(pair){
       var els=[].slice.call(document.querySelectorAll(pair[0]));
