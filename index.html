@@ -1,4 +1,5 @@
 <title>Portfólio Ricardo Andrade</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHJ4PSIxOCIgZmlsbD0iIzE3MGEyYiIgc3Ryb2tlPSJyZ2JhKDI1MywyNTMsMjUzLC4zNSkiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yMS45Miw3OS42NCBMNDYuODgsMjAuMzYgTDUzLjkwLDIwLjM2IEwzMC41MCw3OS42NCBaIiBmaWxsPSIjNmNmM2EzIi8+PHBhdGggZD0iTTc4LjA4LDc5LjY0IEw1My4xMiwyMC4zNiBMNDYuMTAsMjAuMzYgTDY5LjUwLDc5LjY0IFoiIGZpbGw9IiM2Y2YzYTMiLz48cmVjdCB4PSIzNS4xOCIgeT0iNTUuNDYiIHdpZHRoPSIyOS42NCIgaGVpZ2h0PSI2LjI0IiBmaWxsPSIjNmNmM2EzIi8+PGNpcmNsZSBjeD0iNTAuMDAiIGN5PSI1OC45NyIgcj0iNy4wMiIgZmlsbD0iI2U5YzQ2YSIvPjwvc3ZnPg==">
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Portfólio de Ricardo Andrade: Fluig BPM, integração com ERP TOTVS e automação com IA.">
 <style>
@@ -73,7 +74,7 @@ h2.display{font-size:clamp(2.1rem,4.6vw,5.2rem)}
 .bar{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:50%;transform:translateX(-50%);z-index:60;width:min(calc(100% - 32px),980px)}
 .bar-in{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:3.5rem;padding:.5rem .5rem .5rem 1rem;border:1px solid var(--hair);background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .brand{display:flex;align-items:center;gap:.6rem;font-weight:500;font-size:1.05rem;letter-spacing:.01em}
-.brand svg{width:1.15rem;height:1.15rem;display:block}
+.brand svg{width:1.7rem;height:1.7rem;display:block;flex:none}
 .nav{display:flex;gap:clamp(1rem,2vw,2.2rem);font-size:.98rem}
 .nav a{transition:color .3s}.nav a:hover{color:var(--signal)}
 .bar-in>.ghost{align-self:stretch;padding-block:0}
@@ -195,6 +196,13 @@ section{position:relative}
 .wf-n.regra{box-shadow:inset 0 2px 0 var(--gold)}
 .wf-legend{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin-top:1.6rem;font-family:var(--f-tag);font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 .wf-legend i{display:inline-block;width:.7rem;height:.7rem;margin-right:.45rem;vertical-align:-.05em}
+.wf-diagram{margin:2rem 0 0;overflow:hidden}
+.wf-diagram img{display:block;width:100%;height:auto}
+.js .wf-diagram img{clip-path:inset(0 0 100% 0);transform:scale(1.03);transition:clip-path 1.6s cubic-bezier(.22,1,.36,1),transform 2s cubic-bezier(.22,1,.36,1)}
+.js .wf-diagram.in img{clip-path:inset(0 0 0 0);transform:none}
+@media (prefers-reduced-motion:reduce){.js .wf-diagram img{clip-path:none;transform:none;transition:none}}
+.wf-diagram figcaption{padding:1rem 1.5rem 1.2rem}
+.wf-diagram .d{color:var(--paper-muted);font-size:.9rem}
 @media (max-width:1100px){.wf{grid-template-columns:1fr 1fr}}
 @media (max-width:600px){.wf{grid-template-columns:1fr}}
 
@@ -311,8 +319,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
 
 <header class="bar">
   <div class="bar-in">
-    <a class="brand" href="#topo" aria-label="Ricardo Andrade, início">
-      <svg viewBox="0 0 26 26" aria-hidden="true"><path fill="currentColor" d="M13.7676 11.1514L21.6523 3.2666L22.7334 4.34766L14.8457 12.2354H26V13.7646H14.8477L22.7354 21.6523L21.6543 22.7334L13.7676 14.8467V26H12.2383V14.8428L4.34863 22.7324L3.26758 21.6514L11.1543 13.7646H0V12.2354H11.1562L3.26953 4.34863L4.35059 3.26758L12.2383 11.1553V0H13.7676V11.1514Z"/></svg>
+    <a class="brand" href="#topo" aria-label="Ricardo Andrade, início"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14.00,88.00 L46.00,12.00 L55.00,12.00 L25.00,88.00 Z" fill="#6cf3a3"/><path d="M86.00,88.00 L54.00,12.00 L45.00,12.00 L75.00,88.00 Z" fill="#6cf3a3"/><rect x="31.00" y="57.00" width="38.00" height="8.00" fill="#6cf3a3"/><circle cx="50.00" cy="61.50" r="9.00" fill="#e9c46a"/></svg>
       <span>Andrade</span>
     </a>
     <nav class="nav" aria-label="Principal">
@@ -487,7 +494,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   <div class="wrap">
     <div class="head"><span class="tag">[ Workflow ]</span>
       <div class="head-main"><h2 id="h-wf" class="display">Da elaboração do termo à <span class="hl">assinatura</span></h2>
-        <p>Exemplo anonimizado de fluxo: elaboração, aprovação e assinatura de termos com o cliente, com tratamento de erro e prazos automáticos.</p></div>
+        <p>Fluxo real de elaboração, aprovação e assinatura de termos com o cliente, com tratamento de erro e prazos automáticos.</p></div>
     </div>
     <ol class="wf">
       <li class="wf-n auto"><h3>Criar termo</h3><p>Os dados do cliente vêm do processo e o documento é gerado a partir do modelo.</p><span class="wf-k">Automático</span></li>
@@ -505,6 +512,10 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
       <span><i style="background:var(--chalk)"></i>Prazo</span>
       <span><i style="background:#ff8a7a"></i>Erro tratado</span>
     </div>
+    <figure class="paper wf-diagram">
+      <img src="media/workflow-termos.webp" width="1585" height="716" loading="lazy" alt="Diagrama completo do fluxo de termos, com raias, decisões, prazos e tratamento de erros">
+      <figcaption class="vid-b"><p class="d">Diagrama completo do processo, exibido com autorização do cliente.</p></figcaption>
+    </figure>
   </div>
 </section>
 
@@ -659,7 +670,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
     <p class="note">Conte o nome da empresa, quem fala com você e como chegar até você. Abre numa nova aba.</p>
     <div class="foot">
       <div class="id">
-        <a class="brand" href="#topo"><svg viewBox="0 0 26 26" aria-hidden="true"><path fill="currentColor" d="M13.7676 11.1514L21.6523 3.2666L22.7334 4.34766L14.8457 12.2354H26V13.7646H14.8477L22.7354 21.6523L21.6543 22.7334L13.7676 14.8467V26H12.2383V14.8428L4.34863 22.7324L3.26758 21.6514L11.1543 13.7646H0V12.2354H11.1562L3.26953 4.34863L4.35059 3.26758L12.2383 11.1553V0H13.7676V11.1514Z"/></svg><span>Ricardo Andrade</span></a>
+        <a class="brand" href="#topo"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14.00,88.00 L46.00,12.00 L55.00,12.00 L25.00,88.00 Z" fill="#6cf3a3"/><path d="M86.00,88.00 L54.00,12.00 L45.00,12.00 L75.00,88.00 Z" fill="#6cf3a3"/><rect x="31.00" y="57.00" width="38.00" height="8.00" fill="#6cf3a3"/><circle cx="50.00" cy="61.50" r="9.00" fill="#e9c46a"/></svg><span>Ricardo Andrade</span></a>
         <p class="tag">Consultoria em processos, automação, integração e dados</p>
       </div>
       <nav aria-label="Rodapé">
@@ -685,7 +696,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   var rvReduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!rvReduce){
     document.documentElement.classList.add('js');
-    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.partner','card'],['.wf-n','card'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
+    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.partner','card'],['.wf-n','card'],['.wf-diagram','card'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
     var rvEls=[];
     rvSets.forEach(function(pair){
       var els=[].slice.call(document.querySelectorAll(pair[0]));
