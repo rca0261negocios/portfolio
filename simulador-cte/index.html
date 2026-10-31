@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Interativo — Painel CT-e (Fluig × ERP)</title>
+
+    <!-- CSS Local (Sem dependência de internet) -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="widget_painel_cte.css">
+    <!-- Tema Ledger Design System (sobrescreve Bootstrap e widget; carregar por último) -->
+    <link rel="stylesheet" href="ledger-theme.css">
+
+    <style>
+        .portal-topbar {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .portal-brand {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .portal-badge {
+            padding: 4px 10px;
+        }
+        /* Ícones Unicode e Emojis universais (100% offline e compatíveis) */
+        .fluigicon-transport:before { content: "🚚 "; }
+        .fluigicon-refresh:before { content: "🔄 "; }
+        .fluigicon-retweet:before { content: "🔁 "; }
+        .fluigicon-file-doc:before { content: "📄 "; }
+        .fluigicon-check-circle-on:before { content: "✅ "; }
+        .fluigicon-clock:before { content: "⏳ "; }
+        .fluigicon-exclamation-sign:before { content: "⚠️ "; }
+        .fluigicon-remove:before { content: "❌ "; }
+        .fluigicon-filter:before { content: "🔍 "; }
+        .fluigicon-chevron-down:before { content: " ▼"; }
+        .fluigicon-calendar:before { content: "📅 "; }
+        .fluigicon-search:before { content: "🔎 "; }
+        .fluigicon-play:before { content: "▶️ "; }
+        .fluigicon-export:before { content: "📊 "; }
+        .fluigicon-copy:before { content: "📋 "; }
+        .fluigicon-folder-open:before { content: "📁 "; }
+        .fluigicon-info-sign:before { content: "ℹ️ "; }
+        .fluigicon-warning-sign:before { content: "⚠️ "; }
+        .fluigicon-download:before { content: "💾 "; }
+        .fluigicon-hourglass:before { content: "⏳ "; }
+        .fluigicon { display: inline-block; font-style: normal; }
+    </style>
+</head>
+<body>
+
+    <!-- Barra Superior Simulando o Portal Fluig -->
+    <div class="portal-topbar">
+        <div class="portal-brand">
+            <span style="font-size: 20px;">📦</span>
+            Fluig &bull; Painel CT-e
+            <span class="portal-badge">Fluig × ERP</span>
+        </div>
+        <div style="font-size: 13px;">
+            <span>Empresa: <strong>Empresa Exemplo (01)</strong> &bull; Usuário: <strong>admin.fiscal</strong></span>
+        </div>
+    </div>
+
+    <!-- Container da Widget (Pré-renderizado com instanceId = demo_1) -->
+    <div id="widget-painel-cte-demo_1" class="super-widget fluig-style-guide wcm-widget-class">
+        <div class="panel panel-primary widget-panel-cte">
+            <!-- Cabeçalho -->
+            <div class="panel-heading widget-header">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8 col-md-8">
+                        <h3 class="panel-title">
+                            <i class="fluigicon fluigicon-transport"></i>
+                            <strong>Painel CT-e</strong> | Monitoramento & Integração SEFAZ &times; ERP
+                        </h3>
+                        <small class="widget-subtitle">Gestão de Conhecimentos de Transporte Eletrônico &bull; Empresa Exemplo</small>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 text-right widget-header-actions">
+                        <span class="label label-info sync-badge">
+                            <i class="fluigicon fluigicon-refresh"></i> Última Sincronização: <span id="lbl-last-sync-demo_1">26/09/2026 12:00</span>
+                        </span>
+                        <button type="button" class="btn btn-default btn-sm" data-sync-sefaz title="Forçar sincronização imediata com a SEFAZ">
+                            <i class="fluigicon fluigicon-retweet"></i> Consultar SEFAZ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <!-- Linha de KPIs -->
+                <div class="row kpi-container">
+                    <div class="col-xs-6 col-sm-4 col-md-2-4 kpi-col">
+                        <div class="card-kpi kpi-total" data-filter-status="">
+                            <div class="kpi-icon"><i class="fluigicon fluigicon-file-doc"></i></div>
+                            <div class="kpi-info">
+                                <span class="kpi-value" id="kpi-total-demo_1">5</span>
+                                <span class="kpi-label">Total Recuperados</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-2-4 kpi-col">
+                        <div class="card-kpi kpi-success" data-filter-status="INTEGRADO">
+                            <div class="kpi-icon"><i class="fluigicon fluigicon-check-circle-on"></i></div>
+                            <div class="kpi-info">
+                                <span class="kpi-value" id="kpi-integrados-demo_1">2</span>
+                                <span class="kpi-label">Integrados no ERP</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-2-4 kpi-col">
+                        <div class="card-kpi kpi-warning" data-filter-status="PENDENTE">
+                            <div class="kpi-icon"><i class="fluigicon fluigicon-clock"></i></div>
+                            <div class="kpi-info">
+                                <span class="kpi-value" id="kpi-pendentes-demo_1">1</span>
+                                <span class="kpi-label">Pendentes de Envio</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-2-4 kpi-col">
+                        <div class="card-kpi kpi-danger" data-filter-status="ERRO">
+                            <div class="kpi-icon"><i class="fluigicon fluigicon-exclamation-sign"></i></div>
+                            <div class="kpi-info">
+                                <span class="kpi-value" id="kpi-erros-demo_1">1</span>
+                                <span class="kpi-label">Com Erro de Envio</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-2-4 kpi-col">
+                        <div class="card-kpi kpi-muted" data-filter-status="CANCELADO">
+                            <div class="kpi-icon"><i class="fluigicon fluigicon-remove"></i></div>
+                            <div class="kpi-info">
+                                <span class="kpi-value" id="kpi-cancelados-demo_1">1</span>
+                                <span class="kpi-label">Cancelados SEFAZ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel de Filtros Avançados -->
+                <div class="panel panel-default filter-panel">
+                    <div class="panel-heading" data-toggle="collapse" href="#collapse-filter-demo_1" style="cursor: pointer;">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <i class="fluigicon fluigicon-filter"></i> <strong>Filtros Avançados de Pesquisa</strong>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <i class="fluigicon fluigicon-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse-filter-demo_1" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <form id="form-filtros-demo_1" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <div class="form-group">
+                                            <label for="filtro-data-ini-demo_1">Data Emissão Inicial</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="filtro-data-ini-demo_1" placeholder="DD/MM/AAAA" />
+                                                <span class="input-group-addon"><i class="fluigicon fluigicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <div class="form-group">
+                                            <label for="filtro-data-fim-demo_1">Data Emissão Final</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="filtro-data-fim-demo_1" placeholder="DD/MM/AAAA" />
+                                                <span class="input-group-addon"><i class="fluigicon fluigicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <div class="form-group">
+                                            <label for="filtro-status-demo_1">Status Integração</label>
+                                            <select class="form-control" id="filtro-status-demo_1">
+                                                <option value="">-- Todos os Status --</option>
+                                                <option value="PENDENTE">PENDENTE</option>
+                                                <option value="INTEGRADO">INTEGRADO</option>
+                                                <option value="ERRO">ERRO</option>
+                                                <option value="CANCELADO">CANCELADO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <div class="form-group">
+                                            <label for="filtro-emitente-demo_1">Emitente / Transportadora</label>
+                                            <input type="text" class="form-control" id="filtro-emitente-demo_1" placeholder="Nome ou razão social" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-4 col-md-3">
+                                        <div class="form-group">
+                                            <label for="filtro-cnpj-demo_1">CNPJ Emitente</label>
+                                            <input type="text" class="form-control" id="filtro-cnpj-demo_1" placeholder="00.000.000/0000-00" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-3">
+                                        <div class="form-group">
+                                            <label for="filtro-numero-demo_1">Número CT-e</label>
+                                            <input type="text" class="form-control" id="filtro-numero-demo_1" placeholder="Ex: 000042" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label for="filtro-chave-demo_1">Chave de Acesso (44 dígitos)</label>
+                                            <input type="text" class="form-control" id="filtro-chave-demo_1" maxlength="44" placeholder="Chave com 44 dígitos da SEFAZ" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 filter-buttons">
+                                        <div class="form-group">
+                                            <label class="invisible">&nbsp;</label>
+                                            <div>
+                                                <button type="button" class="btn btn-primary btn-block" data-aplicar-filtros>
+                                                    <i class="fluigicon fluigicon-search"></i> Filtrar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra de Ações em Lote -->
+                <div class="row action-toolbar">
+                    <div class="col-xs-12 col-sm-7 col-md-7 toolbar-left">
+                        <button type="button" class="btn btn-success" data-reenviar-selecionados title="Reenviar CT-e selecionados ao ERP">
+                            <i class="fluigicon fluigicon-play"></i> Reenviar Selecionados (<span id="count-selected-demo_1">0</span>)
+                        </button>
+                        <button type="button" class="btn btn-warning" data-reenviar-massa title="Reenviar todos os registros pendentes e com erro">
+                            <i class="fluigicon fluigicon-retweet"></i> Reenviar com Falha / Pendentes
+                        </button>
+                        <button type="button" class="btn btn-default" data-export-excel title="Exportar dados filtrados para Excel / CSV">
+                            <i class="fluigicon fluigicon-export"></i> Exportar Excel
+                        </button>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-md-5 text-right toolbar-right">
+                        <div class="form-inline">
+                            <label for="select-page-size-demo_1">Exibir:&nbsp;</label>
+                            <select class="form-control input-sm" id="select-page-size-demo_1">
+                                <option value="10">10 registros</option>
+                                <option value="25" selected>25 registros</option>
+                                <option value="50">50 registros</option>
+                                <option value="100">100 registros</option>
+                            </select>
+                            <button type="button" class="btn btn-default btn-sm" data-reload-grid title="Recarregar Grid">
+                                <i class="fluigicon fluigicon-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Conhecimentos -->
+                <div class="table-responsive grid-cte-wrapper">
+                    <table class="table table-hover table-striped table-bordered table-cte" id="table-cte-demo_1">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 40px;">
+                                    <input type="checkbox" id="chk-select-all-demo_1" title="Selecionar Todos da Página" />
+                                </th>
+                                <th style="width: 190px;">Chave CT-e</th>
+                                <th>Emitente / Transportadora</th>
+                                <th style="width: 90px;" class="text-center">Número</th>
+                                <th style="width: 60px;" class="text-center">Série</th>
+                                <th style="width: 100px;" class="text-center">Data Emissão</th>
+                                <th style="width: 110px;" class="text-right">Valor Frete</th>
+                                <th style="width: 130px;" class="text-center">Status</th>
+                                <th style="width: 70px;" class="text-center">Tent.</th>
+                                <th style="width: 180px;" class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-cte-demo_1">
+                            <!-- Inserido dinamicamente pelo JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginação -->
+                <div class="row pagination-wrapper">
+                    <div class="col-xs-12 col-sm-6 pagination-info">
+                        <span id="pagination-text-demo_1">Carregando registros...</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 text-right pagination-controls">
+                        <ul class="pagination pagination-sm" id="pagination-nav-demo_1" style="margin: 0;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Locais -->
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+    <!-- Simulação Nativa da API FLUIGC -->
+    <script>
+        var FLUIGC = {
+            toast: function(cfg) {
+                var alertClass = cfg.type === 'success' ? 'alert-success' : (cfg.type === 'warning' ? 'alert-warning' : (cfg.type === 'danger' ? 'alert-danger' : 'alert-info'));
+                var $t = $('<div class="alert ' + alertClass + ' alert-dismissible" style="position:fixed; top:20px; right:20px; z-index:9999; min-width:340px; box-shadow:0 4px 16px rgba(0,0,0,0.25); border-radius:8px;">' +
+                    '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                    '<h4 style="margin:0 0 6px 0; font-size:14px; font-weight:bold;">' + (cfg.title || 'Aviso') + '</h4>' +
+                    '<p style="margin:0; font-size:12px;">' + (cfg.message || '') + '</p>' +
+                    '</div>');
+                $('body').append($t);
+                setTimeout(function() { $t.fadeOut(400, function() { $(this).remove(); }); }, 4500);
+            },
+            modal: function(cfg, callback) {
+                var modalId = cfg.id || 'fluig-sim-modal';
+                $('#' + modalId).remove();
+                var sizeClass = cfg.size === 'full' || cfg.size === 'large' ? 'modal-lg' : '';
+                var html = '<div class="modal fade" id="' + modalId + '" tabindex="-1" role="dialog">' +
+                    '<div class="modal-dialog ' + sizeClass + '" role="document">' +
+                    '<div class="modal-content" style="border-radius:8px; overflow:hidden;">' +
+                    '<div class="modal-header" style="background:#0a1f3a; color:#fff; border-bottom:none;">' +
+                    '<button type="button" class="close" data-dismiss="modal" style="color:#fff; opacity:0.8;">&times;</button>' +
+                    '<h4 class="modal-title" style="font-weight:bold;">' + (cfg.title || '') + '</h4>' +
+                    '</div>' +
+                    '<div class="modal-body">' + (cfg.content || '') + '</div>' +
+                    '<div class="modal-footer" style="border-top:1px solid #e2e8f0;"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button></div>' +
+                    '</div></div></div>';
+                $('body').append(html);
+                var $m = $('#' + modalId);
+                $m.modal('show');
+                if (callback) callback();
+            },
+            message: {
+                confirm: function(cfg, cb) {
+                    var r = window.confirm(cfg.title + '\n\n' + cfg.message);
+                    cb(r);
+                }
+            },
+            loading: function(el, cfg) {
+                return {
+                    show: function() { console.log('[FLUIGC.loading] ' + (cfg.textMessage || 'Carregando...')); },
+                    hide: function() {}
+                };
+            },
+            calendar: function() {}
+        };
+
+        var SuperWidget = {
+            extend: function(def) { return def; }
+        };
+    </script>
+
+    <!-- Carrega o Controller da Widget WCM -->
+    <script src="widget_painel_cte_generico.js"></script>
+
+    <!-- Inicialização Garantida -->
+    <script>
+        $(document).ready(function() {
+            var widgetInstance = Object.create(MyWidget);
+            widgetInstance.instanceId = "demo_1";
+            widgetInstance.init();
+
+            // Bindings diretos
+            $('[data-sync-sefaz]').on('click', function() { widgetInstance.onSyncSefaz(); });
+            $('[data-aplicar-filtros]').on('click', function() { widgetInstance.onAplicarFiltros(); });
+            $('[data-reenviar-selecionados]').on('click', function() { widgetInstance.onReenviarSelecionados(); });
+            $('[data-reenviar-massa]').on('click', function() { widgetInstance.onReenviarEmMassa(); });
+            $('[data-export-excel]').on('click', function() { widgetInstance.onExportarExcel(); });
+            $('[data-reload-grid]').on('click', function() { widgetInstance.onReloadGrid(); });
+            $('.card-kpi').on('click', function() { widgetInstance.onFilterKpiClick(this); });
+
+            // Delegate para linhas da tabela
+            $(document).on('click', '[data-copy-chave]', function() { widgetInstance.onCopyChave(this); });
+            $(document).on('click', '[data-action-reenviar]', function() { widgetInstance.onActionReenviar(this); });
+            $(document).on('click', '[data-action-detalhes]', function() { widgetInstance.onActionDetalhes(this); });
+            $(document).on('click', '[data-action-xml]', function() { widgetInstance.onActionVerXml(this); });
+            $(document).on('click', '[data-action-ged]', function() { widgetInstance.onActionAbrirGed(this); });
+            $(document).on('click', '[data-action-cce]', function() { widgetInstance.onActionVerCce(this); });
+
+            FLUIGC.toast({
+                title: 'Simulador Fluig Ativo',
+                message: 'Painel CT-e carregado com sucesso. Todos os dados e filtros estão operacionais!',
+                type: 'success'
+            });
+        });
+    </script>
+</body>
+</html>
