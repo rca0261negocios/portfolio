@@ -659,7 +659,7 @@ var MyWidget = SuperWidget.extend({
         var idGed = $(el).attr('data-id-ged') || '';
         if (idGed) {
             /* Simulação: abre um modelo de CT-e (PDF com marca d'água) em vez do GED real */
-            window.open('exemplo-cte.pdf', '_blank');
+            window.open('exemplo-cte-' + idGed + '.pdf', '_blank');
         } else {
             FLUIGC.toast({
                 title: 'GED Fluig',
