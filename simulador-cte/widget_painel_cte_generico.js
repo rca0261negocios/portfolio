@@ -689,6 +689,8 @@ var MyWidget = SuperWidget.extend({
                 '<tr><th>Texto da Correção</th><td class="text-danger"><strong>' + (item.CCE_TEXTO || 'Correção dos dados cadastrais do tomador e observações de entrega da carga.') + '</strong></td></tr>' +
                 '<tr><th>Status</th><td><span class="label label-success">RECEBIDA DA SEFAZ</span></td></tr>' +
             '</table>' +
+            '<a class="btn btn-default btn-sm" href="exemplo-cce-' + item.ID_GED + '.pdf" target="_blank" rel="noopener">' +
+                '<i class="fluigicon fluigicon-file-doc"></i> Abrir CC-e em PDF (simulação)</a>' +
         '</div>';
 
         FLUIGC.modal({
