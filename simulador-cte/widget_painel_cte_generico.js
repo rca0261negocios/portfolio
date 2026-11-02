@@ -658,7 +658,8 @@ var MyWidget = SuperWidget.extend({
     onActionAbrirGed: function (el) {
         var idGed = $(el).attr('data-id-ged') || '';
         if (idGed) {
-            window.open('/portal/p/1/ecmnavigation?app_ecm_navigation_doc=' + idGed, '_blank');
+            /* Simulação: abre um modelo de CT-e (PDF com marca d'água) em vez do GED real */
+            window.open('exemplo-cte.pdf', '_blank');
         } else {
             FLUIGC.toast({
                 title: 'GED Fluig',
