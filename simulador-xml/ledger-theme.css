@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Ledger Design System — tema escuro para o simulador do Painel CT-e
-   Carregar DEPOIS de bootstrap.min.css e widget_painel_cte.css.
+   Ledger Design System — tema escuro para o simulador do Painel de XML Fiscal
+   Carregar DEPOIS de bootstrap.min.css e PAINEL_XML.css.
    Só sobrescreve; não altera o CSS da widget publicada no Fluig.
    ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
@@ -38,16 +38,16 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* variáveis da widget (widget_painel_cte.css) remapeadas para o Ledger */
-  --brand-primary: var(--ink);
-  --brand-secondary: var(--surface-inner);
-  --brand-accent: var(--accent);
-  --brand-accent-light: var(--accent-soft);
-  --brand-success: var(--accent-text);
-  --brand-warning: var(--notice);
-  --brand-danger: var(--negative);
-  --brand-muted: var(--text-ui);
-  --brand-border: var(--border-card);
-  --brand-bg: var(--surface-app);
+  --modelo-primary: var(--ink);
+  --modelo-secondary: var(--surface-inner);
+  --modelo-accent: var(--accent);
+  --modelo-accent-light: var(--accent-soft);
+  --modelo-success: var(--accent-text);
+  --modelo-warning: var(--notice);
+  --modelo-danger: var(--negative);
+  --modelo-muted: var(--text-ui);
+  --modelo-border: var(--border-card);
+  --modelo-bg: var(--surface-app);
 }
 
 body {

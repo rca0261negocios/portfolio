@@ -1,0 +1,186 @@
+/*
+  PAINEL DE XML FISCAL - ESTILOS GERAIS E RESPONSIVOS
+  Widget: PAINEL_XML
+  Responsável: Ricardo Andrade
+  Última Modificação: 2611-P11
+  Padrão visual: PAINEL_AUTORIZACAO (header bar, KPI cards, seções). Modo escuro via tokens --fs-color-* do Fluig 2.0.
+*/
+
+/* ===== VARIÁVEIS ===== */
+.pxml-widget {
+    --pxml-font: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --pxml-bg: var(--fs-color-neutral-light-05, #f0f2f5);
+    --pxml-white: var(--fs-color-neutral-light-00, #ffffff);
+    --pxml-border: var(--fs-color-neutral-light-10, #e5e7eb);
+    --pxml-text: var(--fs-color-neutral-dark-95, #111827);
+    --pxml-text-muted: var(--fs-color-neutral-mid-60, #6b7280);
+    --pxml-text-secondary: var(--fs-color-neutral-dark-80, #374151);
+    --pxml-text-faint: var(--fs-color-neutral-mid-40, #9ca3af);
+    --pxml-hover-bg: var(--fs-color-neutral-light-05, #f3f4f6);
+    --pxml-sep-color: var(--fs-color-neutral-light-10, #d1d5db);
+    --pxml-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    --pxml-shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+    --pxml-radius: 12px;
+    --pxml-radius-sm: 8px;
+
+    --pxml-blue: #3b82f6;   --pxml-blue-bg: #eff6ff;   --pxml-blue-text: #1d4ed8;
+    --pxml-green: #22c55e;  --pxml-green-bg: #f0fdf4;  --pxml-green-text: #16a34a;
+    --pxml-purple: #8b5cf6; --pxml-purple-bg: #f5f3ff; --pxml-purple-text: #7c3aed;
+    --pxml-amber: #f59e0b;  --pxml-amber-bg: #fffbeb;  --pxml-amber-text: #b45309;
+    --pxml-red: #ef4444;    --pxml-red-bg: #fef2f2;    --pxml-red-text: #b91c1c;
+    --pxml-gray: #9ca3af;   --pxml-gray-bg: #f3f4f6;   --pxml-gray-text: #4b5563;
+}
+
+/* ===== BASE ===== */
+.pxml-widget {
+    font-family: var(--pxml-font);
+    background-color: var(--pxml-bg);
+    color: var(--pxml-text);
+    padding: 0 12px 24px;
+}
+
+/* ===== HEADER ===== */
+.pxml-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: var(--pxml-white);
+    border-bottom: 1px solid var(--pxml-border);
+    padding: 14px 16px;
+    margin: 0 -12px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.pxml-header-brand { display: flex; align-items: center; gap: 12px; }
+.pxml-header-icon-wrap {
+    width: 44px; height: 44px;
+    background: var(--pxml-blue-bg);
+    border-radius: var(--pxml-radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--pxml-blue);
+    flex-shrink: 0;
+}
+.pxml-header-text { display: flex; flex-direction: column; }
+.pxml-title { font-size: 1.15rem; font-weight: 700; color: var(--pxml-text); margin: 0; line-height: 1.2; }
+.pxml-subtitle { font-size: 0.75rem; color: var(--pxml-text-muted); margin-top: 1px; }
+.pxml-header-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.pxml-action-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: none; border: none;
+    color: var(--pxml-text-secondary);
+    font-size: 0.82rem; font-family: var(--pxml-font); font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    padding: 5px 8px; border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+.pxml-action-btn:hover { background: var(--pxml-hover-bg); color: var(--pxml-text); text-decoration: none; }
+.pxml-sep { color: var(--pxml-sep-color); font-size: 1rem; margin: 0 2px; }
+.pxml-last-update { font-size: 0.72rem; color: var(--pxml-text-faint); margin-left: 6px; white-space: nowrap; }
+
+/* ===== KPI CARDS ===== */
+.pxml-kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 16px; }
+.pxml-kpi-card {
+    background: var(--pxml-white);
+    border-radius: var(--pxml-radius);
+    box-shadow: var(--pxml-shadow);
+    padding: 18px 16px 14px;
+    display: flex; align-items: flex-start; gap: 14px;
+    position: relative; overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+.pxml-kpi-card:hover { box-shadow: var(--pxml-shadow-md); }
+.pxml-kpi-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.pxml-kpi-label { font-size: 0.78rem; font-weight: 600; color: var(--pxml-text-muted); line-height: 1.2; }
+.pxml-label-blue   { color: var(--pxml-blue-text); }
+.pxml-label-green  { color: var(--pxml-green-text); }
+.pxml-label-purple { color: var(--pxml-purple-text); }
+.pxml-label-amber  { color: var(--pxml-amber-text); }
+.pxml-label-red    { color: var(--pxml-red-text); }
+.pxml-label-gray   { color: var(--pxml-gray-text); }
+.pxml-kpi-num { font-size: 2rem; font-weight: 700; color: var(--pxml-text); line-height: 1.1; }
+.pxml-kpi-sub { font-size: 0.72rem; color: var(--pxml-text-faint); line-height: 1.2; }
+.pxml-kpi-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; border-radius: 0 0 var(--pxml-radius) var(--pxml-radius); }
+.pxml-bar-blue   { background: var(--pxml-blue); }
+.pxml-bar-green  { background: var(--pxml-green); }
+.pxml-bar-purple { background: var(--pxml-purple); }
+.pxml-bar-amber  { background: var(--pxml-amber); }
+.pxml-bar-red    { background: var(--pxml-red); }
+.pxml-bar-gray   { background: var(--pxml-gray); }
+
+/* Cartoes da operacao: clique filtra a grade */
+.pxml-kpi-ops { grid-template-columns: repeat(5, 1fr); }
+.pxml-kpi-click { cursor: pointer; }
+.pxml-kpi-ativo { outline: 2px solid var(--pxml-blue); outline-offset: -2px; }
+
+/* ===== SEÇÕES ===== */
+.pxml-section {
+    background: var(--pxml-white);
+    border-radius: var(--pxml-radius);
+    box-shadow: var(--pxml-shadow);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+.pxml-section-header {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--pxml-border);
+}
+.pxml-section-tools { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pxml-section-tools .form-control { width: auto; }
+.pxml-tamanho { margin: 0 0 0 6px; font-size: 0.78rem; font-weight: 600; }
+.pxml-chave { font-size: 0.72rem; }
+.pxml-erp-nome { color: var(--pxml-text-muted); }
+.pxml-paginacao { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 8px 16px; }
+.pxml-paginacao .pagination { margin: 0; }
+.pxml-section-title { font-size: 0.95rem; font-weight: 700; color: var(--pxml-text); margin: 0; }
+.pxml-section-body { padding: 14px 16px 4px; }
+.pxml-kpi-bloco { padding-bottom: 0; }
+.pxml-filtros-bloco { padding-bottom: 0; border-bottom: 1px solid var(--pxml-border); }
+.pxml-section-body > .pxml-kpi-grid, .pxml-kpi-bloco > .pxml-kpi-grid { margin-bottom: 14px; }
+.pxml-section-body label { font-size: 0.78rem; font-weight: 600; color: var(--pxml-text-secondary); }
+.pxml-aviso { min-height: 18px; margin: 0 0 8px; font-size: 0.8rem; color: var(--pxml-text-muted); }
+
+/* ===== TABELAS ===== */
+.pxml-table { margin-bottom: 0; font-size: 0.8rem; }
+.pxml-table > thead > tr > th {
+    color: var(--pxml-text-secondary);
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--pxml-border);
+}
+.pxml-table > tbody > tr > td { padding: 6px 8px; border-top: 1px solid var(--pxml-border); color: var(--pxml-text); }
+.pxml-table > tbody > tr { background-color: var(--pxml-white); transition: background 0.2s; }
+.pxml-table.table-hover > tbody > tr:hover { background-color: var(--pxml-hover-bg); }
+
+/* ===== EDICAO (edit.ftl) ===== */
+.pxml-edit-title { font-family: fantasy; margin: 0; }
+
+/* ===== RESPONSIVO ===== */
+@media screen and (max-width: 1199px) {
+    .pxml-kpi-grid { grid-template-columns: repeat(3, 1fr); }
+    .pxml-kpi-ops { grid-template-columns: repeat(3, 1fr); }
+}
+@media screen and (max-width: 991px) {
+    .pxml-kpi-grid, .pxml-kpi-ops { grid-template-columns: repeat(2, 1fr); }
+}
+@media screen and (max-width: 767px) {
+    .pxml-kpi-grid { gap: 8px; }
+    .pxml-kpi-num { font-size: 1.5rem; }
+    .pxml-kpi-card { padding: 12px 10px; }
+    .pxml-header { padding: 10px 12px; }
+    .pxml-title { font-size: 0.95rem; }
+    .pxml-subtitle, .pxml-last-update { display: none; }
+}
+
+/* XML em tela (modal do botao XML) */
+.pxml-falhas .pxml-falha-arquivo { word-break: break-all; width: 30%; }
+.pxml-falhas .pxml-falha-dica { font-size: 12px; margin-top: 4px; }
+.pxml-xml { max-height: 65vh; overflow: auto; font-size: 12px; white-space: pre; background: #f7f7f9; border: 1px solid #e1e1e8; }
+
+/* ===== ABAS (Documentos / Status do Sync) ===== */
+.pxml-tabs { margin: 0 0 16px; border-bottom: 1px solid var(--pxml-sep-color); }
+.pxml-tabs > li > a { font-weight: 600; font-size: 0.9rem; color: var(--pxml-text-secondary); }
+.pxml-tabs > li.active > a, .pxml-tabs > li.active > a:hover { color: var(--pxml-text); }
+.pxml-pane { display: none; }
+.pxml-pane.active { display: block; }

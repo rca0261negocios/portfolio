@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>Simulador — Painel de XML Fiscal (PAINEL_XML)</title>
+    <!--
+        Simulador da widget REAL PAINEL_XML (versão 2611-P11): carrega o view.ftl, o CSS e o JS direto de wcm/widget/PAINEL_XML.
+        Simulados: os datasets do Fluig (ds_xf_documentos, ds_xf_status, ds_xf_erp, ds_xf_danfe/danfse, ds_xf_detalhe,
+        ds_xf_importar_arquivo, ds_xf_manifestar, ds_xf_sync), o upload ao GED (/ecm/upload e createDocument) e o download
+        do GED (getDownloadURL) para XML e PDF fictícios.
+        Sempre em modo escuro (tema Ledger de projeto/ledger-theme.css + tokens --pxml-* escuros abaixo).
+        Abrir pelo servidor local: node projeto/iniciar_servidor.js  ->  http://localhost:8080/projeto/simulador_widget_painel_xml.html
+        (file:// não funciona: o navegador bloqueia a leitura do view.ftl)
+    -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="ledger-theme.css">
+    <link rel="stylesheet" href="../wcm/widget/PAINEL_XML/src/main/webapp/resources/css/PAINEL_XML.css">
+    <style>
+        html { color-scheme: dark; }
+        body { background: #000; padding: 0; }
+        #portal { padding: 16px; }
+        .sim-topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; background: #0a0b0e; border-bottom: 1px solid rgba(255,255,255,.1); color: #e5e7eb; font-size: 13px; }
+        .sim-topo select { width: auto; display: inline-block; height: 30px; padding: 2px 8px; }
+        .sim-topo .btn { margin-left: 6px; }
+        .sim-nota { padding: 6px 16px; background: rgba(250,204,21,.08); border-bottom: 1px solid rgba(250,204,21,.25); font-size: 12px; color: #fde68a; }
+
+        /* Tokens --pxml-* escuros. No Fluig eles vêm do tema; aqui são fixos, para o simulador ficar sempre escuro. */
+        .pxml-widget {
+            --pxml-bg: #000000;
+            --pxml-white: #0a0b0e;
+            --pxml-border: rgba(255,255,255,.10);
+            --pxml-text: #ffffff;
+            --pxml-text-muted: #a3a3a3;
+            --pxml-text-secondary: #cbd5e1;
+            --pxml-text-faint: #737373;
+            --pxml-hover-bg: rgba(255,255,255,.05);
+            --pxml-sep-color: rgba(255,255,255,.12);
+            --pxml-shadow: 0 1px 4px rgba(0,0,0,.6);
+            --pxml-shadow-md: 0 4px 14px rgba(0,0,0,.7);
+            --pxml-blue-bg: rgba(59,130,246,.16);   --pxml-blue-text: #93c5fd;
+            --pxml-green-bg: rgba(34,197,94,.16);   --pxml-green-text: #86efac;
+            --pxml-purple-bg: rgba(139,92,246,.18); --pxml-purple-text: #c4b5fd;
+            --pxml-amber-bg: rgba(245,158,11,.16);  --pxml-amber-text: #fcd34d;
+            --pxml-red-bg: rgba(239,68,68,.16);     --pxml-red-text: #fca5a5;
+            --pxml-gray-bg: rgba(255,255,255,.08);  --pxml-gray-text: #d4d4d8;
+        }
+        .pxml-header { box-shadow: 0 2px 8px rgba(0,0,0,.6); }
+        .pxml-xml { background: #06070a; border-color: rgba(255,255,255,.12); color: #cbd5e1; }
+        .nav-tabs > li > a { background: transparent; border-color: transparent; color: #a3a3a3; }
+        .nav-tabs > li > a:hover, .nav-tabs > li > a:focus { background: rgba(255,255,255,.05); border-color: transparent; color: #fff; }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus { background: #0a0b0e; border: 1px solid rgba(255,255,255,.12); border-bottom-color: #0a0b0e; color: #fff; }
+        .btn-link { color: #34d399; }
+        .btn-link:hover, .btn-link:focus { color: #fff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="sim-topo">
+        <div>📦 <strong>TOTVS Fluig &bull; Ambiente simulado</strong> &mdash; Painel de XML Fiscal</div>
+        <div>
+            Cliente:
+            <select id="sim-cliente" class="form-control input-sm">
+                <option value="CEM">Grupo CEM &mdash; TOTVS RM</option>
+                <option value="ICE">ICE &mdash; TOTVS Datasul</option>
+            </select>
+            <button type="button" id="sim-regerar" class="btn btn-default btn-sm">Regerar dados</button>
+        </div>
+    </div>
+    <div class="sim-nota">Dados fictícios. O envio ao ERP falha em cerca de 1 de cada 5 tentativas, para exercitar os erros e o reenvio. O GED é simulado: XML e PDF são arquivos fictícios gerados no navegador, sem validade fiscal.</div>
+
+    <div id="portal"></div>
+
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script>
+    (function () {
+        // ------------------------------------------------------------ dados de exemplo (estado em memoria)
+        var estado = { cliente: "CEM", docs: [], integracoes: {}, eventos: {}, ged: {} };
+        var semente = 7;
+        var sequenciaUpload = 0;
+        function alea() { semente = (semente * 9301 + 49297) % 233280; return semente / 233280; }
+        function pad(n, t) { n = String(n); while (n.length < t) n = "0" + n; return n; }
+        function erpAtual() { return estado.cliente === "CEM" ? "RM" : "DATASUL"; }
+
+        var CNPJS = { CEM: ["11222333000181", "11222333000262"], ICE: ["55666777000100"] };
+        var EMITENTES = [["TRANSPORTES ALFA LTDA", "12345678000190"], ["DISTRIBUIDORA BETA SA", "98765432000155"], ["LOCALIZA CONCRETO LTDA", "45678901000122"],
+            ["ENERGISA DISTRIBUICAO", "07282377000120"], ["VIVO TELEFONICA BRASIL", "02558157000162"], ["PREFEITURA DE SAO PAULO", "46395000000139"], ["FERRAGENS GAMA ME", "33444555000166"]];
+        // Motivos de rejeicao na importacao: o texto casa com as orientacoes de falhaDaImportacao da widget.
+        var MOTIVOS_IMPORTACAO = ["CNPJ não monitorado nos Parâmetros", "XML não reconhecido: layout não suportado", "Assinatura digital inválida"];
+
+        function chaveSim(tipo, n) {
+            if (tipo === "NFSE" && n % 2 === 0) return "MUN-" + pad(n, 46);   // NFS-e municipal: a widget mostra "Espelho"
+            var base = tipo === "NFSE" ? "3550308220057475300010000000000" : "35261100000000000191" + (tipo === "CTE" ? "57" : tipo === "NFE" ? "55" : "66") + "001";
+            return (base + pad(n, 19)).substring(0, tipo === "NFSE" ? 50 : 44);
+        }
+
+        // Liga o id do GED ao documento, para o download de XML/PDF.
+        function registrarGed(d) {
+            estado.ged[String(d.ID_GED)] = { tipo: "xml", doc: d };
+            if (d.ID_GED_PDF) estado.ged[String(d.ID_GED_PDF)] = { tipo: "pdf", doc: d };
+        }
+
+        function gerar() {
+            semente = estado.cliente === "CEM" ? 7 : 11;
+            var erp = erpAtual();
+            var tipos = ["NFE", "NFE", "NFE", "NFE", "CTE", "CTE", "NFSE", "NF3E", "NFCOM"];
+            var docs = [];
+            for (var i = 1; i <= 78; i++) {
+                var tipo = tipos[Math.floor(alea() * tipos.length)];
+                var em = EMITENTES[Math.floor(alea() * EMITENTES.length)];
+                var cnpjs = CNPJS[estado.cliente];
+                var dia = 1 + Math.floor(alea() * 7);
+                var chave = chaveSim(tipo, i);
+                var r = alea();
+                docs.push({
+                    TIPO: tipo, CHAVE: chave, CNPJ: cnpjs[Math.floor(alea() * cnpjs.length)], EMITENTE: em[0], NUMERO: String(1000 + i), SERIE: "1",
+                    EMISSAO: "2026-11-" + pad(dia, 2), VALOR: (200 + Math.floor(alea() * 90000) / 10).toFixed(2), SITUACAO: r < 0.07 ? "CANCELADO" : "AUTORIZADO",
+                    ORIGEM: alea() < 0.8 ? "SEFAZ" : "UPLOAD", NIVEL: alea() < 0.15 && tipo === "NFE" ? "RESUMO" : "COMPLETO",
+                    ERP: r < 0.30 ? "INTEGRADO" : r < 0.36 ? "ERRO" : "", AUTENTICIDADE: "OK", ID_GED: String(5000 + i), UF: "35", MUNICIPIO: "",
+                    ID_GED_PDF: "", PDF_MODO: tipo === "NFE" || tipo === "NFSE" ? (alea() < 0.12 ? "captura" : "demanda") : "",
+                    CNPJ_EMITENTE: em[1], ERP_LIGADO: "S", ERP_NOME: erp, EVENTOS: "0"
+                });
+            }
+            // alguns documentos de CNPJ sem envio ao ERP, para o filtro "Sem envio ao ERP"
+            for (var s = 0; s < 6; s++) { docs[s * 11].ERP_LIGADO = ""; docs[s * 11].ERP_NOME = ""; docs[s * 11].ERP = ""; }
+            // PDFs ja gerados na captura
+            docs.forEach(function (d) { if (d.PDF_MODO === "captura" && d.NIVEL === "COMPLETO") d.ID_GED_PDF = String(7000 + Number(d.NUMERO)); });
+            estado.docs = docs;
+            estado.integracoes = {};
+            estado.eventos = {};
+            estado.ged = {};
+            docs.forEach(function (d, i) {
+                registrarGed(d);
+                if (d.ERP === "ERRO") estado.integracoes[d.CHAVE] = [{ n: 1, data: "06/11/2026 14:20", status: "ERRO", msg: "HTTP 500 Internal Server Error" }, { n: 2, data: "07/11/2026 08:05", status: "ERRO", msg: "timeout ao falar com o " + erp }];
+                if (d.ERP === "INTEGRADO") estado.integracoes[d.CHAVE] = [{ n: 1, data: "06/11/2026 14:20", status: "INTEGRADO", msg: "Integrado." }];
+                if (d.TIPO === "CTE" && i % 3 === 0) { estado.eventos[d.CHAVE] = [{ n: 1, data: "2026-11-04", cod: "110110", texto: "Carta de Correcao: Corrigir o CNPJ do tomador e as observações de entrega" }]; d.EVENTOS = "1"; }
+                if (d.SITUACAO === "CANCELADO") { estado.eventos[d.CHAVE] = [{ n: 1, data: "2026-11-06", cod: "110111", texto: "Cancelamento: Documento emitido em duplicidade" }]; d.EVENTOS = "1"; }
+            });
+        }
+
+        // Documento importado pelo usuario: entra na lista depois do Buscar.
+        function criarDocImportado(idGed) {
+            var n = estado.docs.length + 1;
+            var em = EMITENTES[Math.floor(Math.random() * EMITENTES.length)];
+            var doc = {
+                TIPO: "NFE", CHAVE: chaveSim("NFE", 800 + n), CNPJ: CNPJS[estado.cliente][0], EMITENTE: em[0], NUMERO: String(2000 + n), SERIE: "1",
+                EMISSAO: "2026-11-08", VALOR: "1500.00", SITUACAO: "AUTORIZADO", ORIGEM: "UPLOAD", NIVEL: "COMPLETO", ERP: "", AUTENTICIDADE: "OK",
+                ID_GED: String(idGed), UF: "35", MUNICIPIO: "", ID_GED_PDF: "", PDF_MODO: "demanda",
+                CNPJ_EMITENTE: em[1], ERP_LIGADO: "S", ERP_NOME: erpAtual(), EVENTOS: "0"
+            };
+            estado.docs.push(doc);
+            registrarGed(doc);
+            return doc;
+        }
+
+        // ------------------------------------------------------------ arquivos fictícios do GED (XML e PDF)
+        function xmlSimulado(d) {
+            if (d.TIPO === "CTE") {
+                return '<?xml version="1.0" encoding="UTF-8"?>\n<!-- XML FICTICIO: dados simulados para teste do painel -->\n' +
+                    '<cteProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/cte"><CTe><infCte Id="CTe' + d.CHAVE + '" versao="4.00">' +
+                    '<ide><cUF>35</cUF><nCT>' + d.NUMERO + '</nCT><serie>' + d.SERIE + '</serie><dhEmi>' + d.EMISSAO + 'T10:00:00-03:00</dhEmi></ide>' +
+                    '<emit><CNPJ>' + d.CNPJ_EMITENTE + '</CNPJ><xNome>' + d.EMITENTE + '</xNome></emit>' +
+                    '<rem><CNPJ>' + d.CNPJ + '</CNPJ></rem><vPrest><vTPrest>' + d.VALOR + '</vTPrest></vPrest></infCte></CTe></cteProc>';
+            }
+            return '<?xml version="1.0" encoding="UTF-8"?>\n<!-- XML FICTICIO: dados simulados para teste do painel -->\n' +
+                '<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><NFe><infNFe Id="NFe' + d.CHAVE + '" versao="4.00">' +
+                '<ide><cUF>35</cUF><nNF>' + d.NUMERO + '</nNF><serie>' + d.SERIE + '</serie><dhEmi>' + d.EMISSAO + 'T10:00:00-03:00</dhEmi></ide>' +
+                '<emit><CNPJ>' + d.CNPJ_EMITENTE + '</CNPJ><xNome>' + d.EMITENTE + '</xNome></emit>' +
+                '<dest><CNPJ>' + d.CNPJ + '</CNPJ></dest><total><ICMSTot><vNF>' + d.VALOR + '</vNF></ICMSTot></total></infNFe></NFe></nfeProc>';
+        }
+        // PDF minimo e valido (texto em ASCII, para o tamanho do fluxo bater com os bytes).
+        function pdfSimulado(linhas) {
+            var fluxo = "BT /F1 12 Tf 50 790 Td 16 TL ";
+            linhas.forEach(function (t, i) { fluxo += (i ? "T* " : "") + "(" + t.replace(/[()\\]/g, "") + ") Tj "; });
+            fluxo += "ET";
+            var objetos = [
+                "<< /Type /Catalog /Pages 2 0 R >>",
+                "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+                "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>",
+                "<< /Length " + fluxo.length + " >>\nstream\n" + fluxo + "\nendstream",
+                "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>"
+            ];
+            var pdf = "%PDF-1.4\n", posicoes = [];
+            objetos.forEach(function (o, i) { posicoes.push(pdf.length); pdf += (i + 1) + " 0 obj\n" + o + "\nendobj\n"; });
+            var xref = pdf.length;
+            pdf += "xref\n0 " + (objetos.length + 1) + "\n0000000000 65535 f \n";
+            posicoes.forEach(function (p) { pdf += ("0000000000" + p).slice(-10) + " 00000 n \n"; });
+            pdf += "trailer\n<< /Size " + (objetos.length + 1) + " /Root 1 0 R >>\nstartxref\n" + xref + "\n%%EOF\n";
+            return new Blob([pdf], { type: "application/pdf" });
+        }
+        function arquivoSimulado(idGed) {
+            var r = estado.ged[String(idGed)];
+            if (!r) return null;
+            var d = r.doc;
+            if (r.tipo === "pdf") {
+                return pdfSimulado([
+                    (d.TIPO === "NFE" ? "DANFE" : d.TIPO === "NFSE" && d.CHAVE.indexOf("MUN-") === 0 ? "Espelho da NFS-e" : "DANFSe") + " simulado (dados ficticios)",
+                    "Chave: " + d.CHAVE,
+                    "Numero " + d.NUMERO + " - " + d.EMITENTE,
+                    "Valor R$ " + d.VALOR,
+                    "Documento de teste: sem validade fiscal"
+                ]);
+            }
+            return new Blob([xmlSimulado(d)], { type: "text/xml;charset=utf-8" });
+        }
+
+        // ------------------------------------------------------------ runtime do Fluig simulado
+        var FLUIGC = {
+            toast: function (cfg) {
+                var cls = cfg.type === "success" ? "alert-success" : cfg.type === "danger" ? "alert-danger" : cfg.type === "warning" ? "alert-warning" : "alert-info";
+                var $t = $('<div class="alert ' + cls + '" style="position:fixed;top:20px;right:20px;z-index:9999;min-width:300px;box-shadow:0 4px 16px rgba(0,0,0,.6)"></div>').text((cfg.title ? cfg.title + " " : "") + (cfg.message || ""));
+                $("body").append($t);
+                setTimeout(function () { $t.fadeOut(300, function () { $t.remove(); }); }, 3500);
+            },
+            modal: function (cfg) {
+                $("#" + cfg.id).remove();
+                var $m = $('<div class="modal fade" id="' + cfg.id + '" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title"></h4></div><div class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button></div></div></div></div>');
+                $m.find(".modal-title").html(cfg.title);
+                $m.find(".modal-body").html(cfg.content);
+                $("body").append($m);
+                $m.modal("show");
+            },
+            message: { confirm: function (cfg, cb) { cb(window.confirm(cfg.title + "\n\n" + cfg.message)); } }
+        };
+        window.FLUIGC = FLUIGC;
+        window.WCMAPI = { organizationId: 1 };
+        window.ConstraintType = { MUST: 1 };
+        window.SuperWidget = { extend: function (def) { return def; } };
+
+        // Abas em branco e blobs (XML/PDF do GED) abrem de verdade; o resto (URLs do GED) so avisa.
+        var abrirReal = window.open;
+        window.open = function (url) {
+            if (!url || String(url).indexOf("blob:") === 0) return abrirReal.apply(window, arguments);
+            FLUIGC.toast({ type: "info", title: "Abriria no GED:", message: url });
+            return null;
+        };
+
+        // Upload ao GED: a widget envia por XMLHttpRequest para /ecm/upload e espera o JSON com o nome do arquivo.
+        var xhrOpen = XMLHttpRequest.prototype.open, xhrSend = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.open = function (metodo, url) {
+            this._simUpload = String(url).indexOf("/ecm/upload") === 0;
+            return xhrOpen.apply(this, arguments);
+        };
+        XMLHttpRequest.prototype.send = function (corpo) {
+            if (!this._simUpload) return xhrSend.apply(this, arguments);
+            var xhr = this, nome = "arquivo";
+            try { nome = corpo.get("files").name; } catch (e) { }
+            setTimeout(function () {
+                Object.defineProperty(xhr, "status", { value: 200 });
+                Object.defineProperty(xhr, "responseText", { value: JSON.stringify({ files: [{ name: "sim-" + (++sequenciaUpload) + "-" + nome }] }) });
+                if (xhr.onload) xhr.onload();
+            }, 120);
+        };
+
+        // Chamadas REST do Fluig: criar documento no GED e pedir o endereco de download.
+        var ajaxOriginal = $.ajax;
+        var PREFIXO_DOWNLOAD = "/api/public/2.0/documents/getDownloadURL/";
+        $.ajax = function (cfg) {
+            var url = String((cfg && cfg.url) || "");
+            if (url.indexOf("/api/public/ecm/document/createDocument") === 0) {
+                var id = String(9000 + (++sequenciaUpload));
+                setTimeout(function () { if (cfg.success) cfg.success({ content: { id: id } }); }, 120);
+                return;
+            }
+            if (url.indexOf(PREFIXO_DOWNLOAD) === 0) {
+                var docId = decodeURIComponent(url.substring(PREFIXO_DOWNLOAD.length));
+                var arquivo = arquivoSimulado(docId);
+                setTimeout(function () {
+                    if (!arquivo) { if (cfg.error) cfg.error({ status: 404 }); return; }
+                    cfg.success({ content: { url: URL.createObjectURL(arquivo) } });
+                }, 120);
+                return;
+            }
+            return ajaxOriginal.apply($, arguments);
+        };
+
+        function linhasDs(arr) { return { values: arr }; }
+
+        window.DatasetFactory = {
+            createConstraint: function (campo, ini) { return { campo: campo, valor: ini }; },
+            getDataset: function (nome, campos, cons) {
+                var c = {};
+                (cons || []).forEach(function (x) { c[x.campo] = x.valor; });
+                if (nome === "ds_xf_documentos") {
+                    var ini = c.INICIO || "0000-00-00", fim = c.FIM || "9999-99-99";
+                    var cnpj = String(c.CNPJ || "").replace(/\D/g, "");
+                    return linhasDs(estado.docs.filter(function (d) {
+                        return (!cnpj || d.CNPJ === cnpj) && d.EMISSAO >= ini && d.EMISSAO <= fim && (!c.TIPO || d.TIPO === c.TIPO) && (!c.CHAVE || d.CHAVE.indexOf(c.CHAVE) >= 0);
+                    }));
+                }
+                if (nome === "ds_xf_status") {
+                    return linhasDs(CNPJS[estado.cliente].map(function (cnpj) {
+                        return { CNPJ: cnpj, TIPO: "NFE", SITUACAO: "OK", ULTIMA_OK: "2026-11-07 08:3" + (cnpj.slice(-1) === "1" ? "0" : "5"), DIAS: "0", ULT_NSU: "000000000012345", NOVOS: "3", CSTAT: "138", PROXIMA: "2026-11-07 09:30", ERRO: "" };
+                    }));
+                }
+                if (nome === "ds_xf_erp") {
+                    var doc = estado.docs.filter(function (d) { return d.CHAVE === c.CHAVE; })[0];
+                    if (!doc || doc.ERP_LIGADO !== "S") return linhasDs([]);
+                    var falhou = Math.random() < 0.2;
+                    var historico = estado.integracoes[doc.CHAVE] = estado.integracoes[doc.CHAVE] || [];
+                    var msg = falhou ? "HTTP 503 " + doc.ERP_NOME + " indisponível" : "Integrado.";
+                    historico.push({ n: historico.length + 1, data: new Date().toLocaleString("pt-BR").substring(0, 16), status: falhou ? "ERRO" : "INTEGRADO", msg: msg });
+                    doc.ERP = falhou ? "ERRO" : "INTEGRADO";
+                    return linhasDs([{ STATUS: doc.ERP, MENSAGEM: msg, CNPJ: doc.CNPJ, TIPO: doc.TIPO, CHAVE: doc.CHAVE, DETALHE: doc.ERP_NOME }]);
+                }
+                if (nome === "ds_xf_danfe" || nome === "ds_xf_danfse") {
+                    var d2 = estado.docs.filter(function (d) { return d.CHAVE === c.CHAVE; })[0];
+                    if (!d2) return linhasDs([{ STATUS: "ERRO", MENSAGEM: "Documento não encontrado", CHAVE: "" }]);
+                    d2.ID_GED_PDF = d2.ID_GED_PDF || String(7000 + Number(d2.NUMERO));
+                    registrarGed(d2);
+                    return linhasDs([{ STATUS: "SUCESSO", MENSAGEM: "Gravado no GED.", CNPJ: d2.CNPJ, TIPO: d2.TIPO, CHAVE: d2.CHAVE, DETALHE: d2.ID_GED_PDF }]);
+                }
+                if (nome === "ds_xf_detalhe") {
+                    var saida = [];
+                    (estado.integracoes[c.CHAVE] || []).forEach(function (t) { saida.push({ SECAO: "INTEGRACAO", SEQ: String(t.n), DATA: t.data, STATUS: t.status, TEXTO: "ERP " + (estado.docs.filter(function (d) { return d.CHAVE === c.CHAVE; })[0] || {}).ERP_NOME + ": " + t.msg }); });
+                    (estado.eventos[c.CHAVE] || []).forEach(function (e) { saida.push({ SECAO: "EVENTO", SEQ: String(e.n), DATA: e.data, STATUS: e.cod, TEXTO: e.texto }); });
+                    return linhasDs(saida);
+                }
+                if (nome === "ds_xf_sync") return linhasDs([{ STATUS: "OK", MENSAGEM: "Sincronização simulada: 3 documentos novos.", CHAVE: "" }]);
+                if (nome === "ds_xf_manifestar") return linhasDs([{ STATUS: "OK", MENSAGEM: "Ciência da operação registrada (simulado).", CHAVE: c.CHAVE }]);
+                if (nome === "ds_xf_importar_arquivo") {
+                    // Um linha por arquivo enviado (DETALHE = id do GED). Uns entram; outros voltam REJEITADO com o motivo.
+                    var ids = String(c.DOCUMENT_IDS || "").split(",").filter(Boolean);
+                    return linhasDs(ids.map(function (idGed) {
+                        if (Math.random() < 0.25) return { STATUS: "REJEITADO", MENSAGEM: MOTIVOS_IMPORTACAO[Math.floor(Math.random() * MOTIVOS_IMPORTACAO.length)], CHAVE: "", DETALHE: idGed };
+                        var novo = criarDocImportado(idGed);
+                        return { STATUS: "OK", MENSAGEM: "Importado: NF-e " + novo.NUMERO + " (" + novo.EMITENTE + ").", CHAVE: novo.CHAVE, DETALHE: idGed };
+                    }));
+                }
+                return null;
+            }
+        };
+
+        // ------------------------------------------------------------ monta a widget real
+        var instancia = null;
+        function limpar(ftl) {
+            return ftl.replace(/<#--[\s\S]*?-->/g, "").replace(/<!--[\s\S]*?-->/g, "").replace(/<#assign[^>]*>/g, "")
+                .replace(/<#if[^>]*>[\s\S]*?<\/#if>/g, "").replace(/<script[^>]*vcXMLRPC[^>]*><\/script>/g, "")
+                .replace(/\$\{instanceId\}/g, "sim1").replace(/\$\{[^}]*\}/g, "");
+        }
+        function montar(ftl) {
+            $(document).off(".sim");
+            $("#portal").html(limpar(ftl));
+            instancia = Object.create(window.painelXML);
+            instancia.instanceId = "sim1";
+            instancia.pastaGed = "97265";
+            var b = instancia.bindings.local;
+            Object.keys(b).forEach(function (chave) {
+                b[chave].forEach(function (par) {
+                    var p = par.split("_");
+                    $(document).on(p[0] + ".sim", "#portal [data-" + chave + "]", function (ev) { instancia[p[1]](this, ev); });
+                });
+            });
+            instancia.init();
+            $("#cnpj_sim1").val(CNPJS[estado.cliente][0]);
+        }
+
+        var ftlTexto = null;
+        function reiniciar() {
+            estado.cliente = $("#sim-cliente").val();
+            gerar();
+            montar(ftlTexto);
+        }
+
+        $.when(
+            $.get("../wcm/widget/PAINEL_XML/src/main/resources/view.ftl", null, null, "text"),
+            $.getScript("../wcm/widget/PAINEL_XML/src/main/webapp/resources/js/PAINEL_XML.js")
+        ).done(function (ftl) {
+            ftlTexto = ftl[0];
+            $("#sim-cliente").on("change", reiniciar);
+            $("#sim-regerar").on("click", reiniciar);
+            reiniciar();
+        }).fail(function () {
+            $("#portal").html('<div class="alert alert-danger" style="margin:16px">Não foi possível carregar a widget. Abra pelo servidor local: <code>node projeto/iniciar_servidor.js</code> e acesse <code>http://localhost:8080/projeto/simulador_widget_painel_xml.html</code>.</div>');
+        });
+    })();
+    </script>
+</body>
+</html>
