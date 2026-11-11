@@ -200,8 +200,8 @@ section{position:relative}
 .gal-track{display:flex;gap:clamp(1rem,2vw,1.5rem);overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;padding-bottom:.4rem;scrollbar-width:none}
 .gal-track::-webkit-scrollbar{display:none}
 .gcard{scroll-snap-align:start;flex:0 0 calc((100% - 2*clamp(1rem,2vw,1.5rem))/3);min-width:0;display:flex;flex-direction:column;overflow:hidden}
-.gcard .gshot{display:block;width:100%;aspect-ratio:16/10.2;object-fit:cover;object-position:top;background:#000;border-bottom:1px solid var(--paper-line)}
-.gcard .gshot{-webkit-user-drag:none;user-select:none;pointer-events:none}
+.gcard .gshot-frame{position:relative;width:100%;aspect-ratio:16/10.2;background:#0b0b12;border-bottom:1px solid var(--paper-line);display:flex;align-items:center;justify-content:center;padding:.6rem;box-sizing:border-box;overflow:hidden}
+.gcard .gshot{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;-webkit-user-drag:none;user-select:none;pointer-events:none}
 .gcard figcaption{padding:1.1rem 1.2rem 1.35rem;display:flex;flex-direction:column;gap:.7rem;flex:1}
 .gcard .hook{font-size:1rem;line-height:1.42;color:var(--chalk)}
 .gal-track{cursor:grab;user-select:none}
@@ -212,7 +212,7 @@ section{position:relative}
 .gal-btn:disabled{opacity:.35;cursor:default}
 .gal-btn:disabled:hover{background:transparent;border-color:var(--line)}
 .gal-btn svg{width:1.05rem;height:1.05rem;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.gal-dots{display:flex;align-items:center;gap:.55rem}
+.gal-dots{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:.5rem;max-width:min(60vw,24rem)}
 .gal-dot{width:.55rem;height:.55rem;flex:none;padding:0;border:1px solid var(--line);border-radius:50%;background:transparent;cursor:pointer;transition:background-color .3s,border-color .3s,transform .3s}
 .gal-dot:hover{border-color:var(--signal)}
 .gal-dot.on{background:var(--signal);border-color:var(--signal);transform:scale(1.25)}
@@ -511,59 +511,59 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
     <div class="gal" id="galeria-trabalhos">
       <div class="gal-track">
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/01-aprovacoes-rm.png" alt="Painel de aprovação de workflows RM em formato de cards, com valores e aprovador" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/01-aprovacoes-rm.png" alt="Painel de aprovação de workflows RM em formato de cards, com valores e aprovador" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Workflows de aprovação de RM organizados em cards, com valor e aprovador à vista — sem abrir planilha.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/02-cnab240.png" alt="Tela de importação e consulta de arquivos bancários CNAB 240" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/02-cnab240.png" alt="Tela de importação e consulta de arquivos bancários CNAB 240" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Arquivos bancários CNAB 240 importados, conferidos e reprocessados sem sair do Fluig.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/03-consulta-solicitacoes.png" alt="Painel de consulta de solicitações de compras com status e integração ao ERP" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/03-consulta-solicitacoes.png" alt="Painel de consulta de solicitações de compras com status e integração ao ERP" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">150 solicitações de compra, do pedido à integração com o ERP, numa única tela.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/04-distribuicao-tarefas.png" alt="Tela de distribuição de tarefas de workflow entre equipes" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/04-distribuicao-tarefas.png" alt="Tela de distribuição de tarefas de workflow entre equipes" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Tarefa parada numa equipe? Redistribuída para outro grupo em segundos.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/05-entrada-nf-fora-prazo.png" alt="Dashboard de notas fiscais com entrada fora do prazo" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/05-entrada-nf-fora-prazo.png" alt="Dashboard de notas fiscais com entrada fora do prazo" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Quem mais atrasa a entrada de nota fiscal — antes que isso vire problema no fechamento.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/06-home-atomo.png" alt="Tela inicial do hub Átomo com atalhos para CRM, aprovações, SCOD e financeiro" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/06-home-atomo.png" alt="Tela inicial do hub Átomo com atalhos para CRM, aprovações, SCOD e financeiro" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">CRM, aprovações, SCOD, financeiro e indicadores, todos atrás de um único login.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/07-lancamentos-nf-despesas.png" alt="Dashboard de lançamentos de nota fiscal e despesas por centro de custo" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/07-lancamentos-nf-despesas.png" alt="Dashboard de lançamentos de nota fiscal e despesas por centro de custo" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">137 lançamentos de nota fiscal e despesa, abertos por centro de custo.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/08-organograma.png" alt="Organograma interativo gerado a partir da base de usuários do Fluig" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/08-organograma.png" alt="Organograma interativo gerado a partir da base de usuários do Fluig" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Organograma sempre atualizado — direto da base de usuários do Fluig, sem planilha paralela.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/09-pagamentos-fora-regra.png" alt="Dashboard de pagamentos realizados fora da regra definida" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/09-pagamentos-fora-regra.png" alt="Dashboard de pagamentos realizados fora da regra definida" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Pagamentos fora da regra sinalizados antes de saírem do caixa.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/10-sala-de-controle.png" alt="Sala de controle com SLA de múltiplos processos em tempo real" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/10-sala-de-controle.png" alt="Sala de controle com SLA de múltiplos processos em tempo real" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Dezenas de processos, SLA por etapa, numa sala de controle com modo TV.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/11-scod-debitos.png" alt="Painel de consulta de débitos de IPTU e taxas municipais, SCOD" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/11-scod-debitos.png" alt="Painel de consulta de débitos de IPTU e taxas municipais, SCOD" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Mais de mil imóveis, débitos de IPTU cruzados e rateados automaticamente.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/12-semaforo-contabil.png" alt="Semáforo de controle de recebimento de documentos contábeis" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/12-semaforo-contabil.png" alt="Semáforo de controle de recebimento de documentos contábeis" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Entregas contábeis do mês, por responsável, num semáforo que ninguém ignora.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/13-transferir-pendencias.png" alt="Tela de transferência de pendências entre usuários do Fluig" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/13-transferir-pendencias.png" alt="Tela de transferência de pendências entre usuários do Fluig" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Colaborador saiu da empresa? Pendências transferidas em um clique, sem perder nada no caminho.</p></figcaption>
       </figure>
       <figure class="paper gcard">
-        <img class="gshot" src="media/trabalhos-carrossel/14-titulos-auditoria.png" alt="Trilha de auditoria de aprovações de títulos e notas fiscais" loading="lazy" decoding="async">
+        <div class="gshot-frame"><img class="gshot" src="media/trabalhos-carrossel/14-titulos-auditoria.png" alt="Trilha de auditoria de aprovações de títulos e notas fiscais" loading="lazy" decoding="async"></div>
         <figcaption><span class="chip s">Em produção</span><p class="hook">Cada nota fiscal aprovada, com aprovador, filial e valor rastreados numa trilha de auditoria.</p></figcaption>
       </figure>
       </div>
@@ -832,30 +832,35 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   var galTrack=document.querySelector('#galeria-trabalhos .gal-track');
   if(galTrack){
     var galPrev=document.querySelector('.gal-prev'),galNext=document.querySelector('.gal-next'),galDots=document.querySelector('.gal-dots');
-    var galPages=1,galPage=0;
+    var galCards=[].slice.call(galTrack.querySelectorAll('.gcard'));
+    function galNearest(){
+      var idx=0,best=Infinity;
+      galCards.forEach(function(c,i){var d=Math.abs(c.offsetLeft-galTrack.scrollLeft);if(d<best){best=d;idx=i}});
+      return idx;
+    }
+    function galStep(){
+      return galCards.length>1?(galCards[1].offsetLeft-galCards[0].offsetLeft):galTrack.clientWidth;
+    }
     function galBuildDots(){
-      var w=galTrack.clientWidth;
-      galPages=Math.max(1,Math.round(galTrack.scrollWidth/w));
       galDots.innerHTML='';
-      for(var i=0;i<galPages;i++){
+      galCards.forEach(function(_,i){
         var b=document.createElement('button');
-        b.type='button';b.className='gal-dot';b.setAttribute('aria-label','Ir para página '+(i+1)+' de '+galPages);
-        (function(i){b.addEventListener('click',function(){galTrack.scrollTo({left:i*galTrack.clientWidth,behavior:'smooth'})})})(i);
+        b.type='button';b.className='gal-dot';b.setAttribute('aria-label','Ir para a imagem '+(i+1)+' de '+galCards.length);
+        b.addEventListener('click',function(){galTrack.scrollTo({left:galCards[i].offsetLeft,behavior:'smooth'})});
         galDots.appendChild(b);
-      }
+      });
     }
     function galUpdate(){
-      var w=galTrack.clientWidth,max=galTrack.scrollWidth-w-2;
+      var max=galTrack.scrollWidth-galTrack.clientWidth-2;
       galPrev.disabled=galTrack.scrollLeft<=2;
       galNext.disabled=galTrack.scrollLeft>=max;
-      galPage=Math.round(galTrack.scrollLeft/w);
-      var dots=galDots.children;
-      for(var i=0;i<dots.length;i++){dots[i].classList.toggle('on',i===galPage)}
+      var idx=galNearest(),dots=galDots.children;
+      for(var i=0;i<dots.length;i++){dots[i].classList.toggle('on',i===idx)}
     }
-    galNext.addEventListener('click',function(){galTrack.scrollBy({left:galTrack.clientWidth,behavior:'smooth'})});
-    galPrev.addEventListener('click',function(){galTrack.scrollBy({left:-galTrack.clientWidth,behavior:'smooth'})});
+    galNext.addEventListener('click',function(){galTrack.scrollBy({left:galStep(),behavior:'smooth'})});
+    galPrev.addEventListener('click',function(){galTrack.scrollBy({left:-galStep(),behavior:'smooth'})});
     galTrack.addEventListener('scroll',galUpdate,{passive:true});
-    addEventListener('resize',function(){galBuildDots();galUpdate()});
+    addEventListener('resize',galUpdate);
     galBuildDots();galUpdate();
 
     /* arrastar com o mouse (touch e trackpad já funcionam nativamente) */
@@ -874,8 +879,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
     function galEnd(e){
       if(!galDown)return;
       galDown=false;galTrack.classList.remove('dragging');
-      var w=galTrack.clientWidth;
-      galTrack.scrollTo({left:Math.round(galTrack.scrollLeft/w)*w,behavior:'smooth'});
+      galTrack.scrollTo({left:galCards[galNearest()].offsetLeft,behavior:'smooth'});
     }
     galTrack.addEventListener('pointerup',galEnd);
     galTrack.addEventListener('pointerleave',function(e){if(galDown)galEnd(e)});
