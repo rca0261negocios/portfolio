@@ -351,6 +351,62 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
 .p-info > span:not(.p-go){color:var(--muted);font-size:.95rem;line-height:1.4}
 .p-go{font-family:var(--f-tag);font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);margin-top:.4rem}
 @media (max-width:700px){.partners{grid-template-columns:1fr}}
+/* contato direto (WhatsApp) */
+.cta.wa span{border-color:rgba(108,243,163,.7);color:var(--signal)}
+.cta.wa:hover span{background:rgba(108,243,163,.12);border-color:var(--signal)}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:1rem}
+.hero-avail{display:inline-flex;align-items:center;gap:.65rem;color:var(--signal);font-family:var(--f-tag);font-size:.82rem;letter-spacing:.05em;text-transform:uppercase}
+.hero-avail::before{content:"";width:7px;height:7px;background:var(--signal);flex:none}
+.hc-actions{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:.5rem}
+.hc .hc-actions .cta{margin-top:0}
+.contact-cta{flex-wrap:wrap;gap:1rem}
+
+/* mini-diagnóstico do Health Check */
+.diag{padding:clamp(1.5rem,3vw,3rem);display:grid;gap:1.6rem;min-width:0}
+.diag-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.5rem 1.5rem}
+.diag-top .tag{color:var(--muted)}
+.diag-top .tag:first-child{color:var(--signal)}
+.diag-bar{position:relative;height:2px;background:var(--hair);margin-top:1rem}
+.diag-bar i{position:absolute;inset:0 auto 0 0;width:0;background:var(--signal);transition:width .5s cubic-bezier(.22,1,.36,1)}
+.diag-q{border:0;margin:0;padding:0;min-width:0}
+.diag-q legend{padding:0;font-weight:300;font-size:clamp(1.35rem,2.4vw,2.2rem);line-height:1.12;max-width:34ch;text-wrap:balance}
+.diag-q legend:focus{outline:none}
+.diag-why{color:var(--paper-muted);max-width:60ch;margin-top:.9rem;font-size:.97rem;line-height:1.5}
+.diag-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.6rem}
+.diag-opt{position:relative;display:block}
+.diag-opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.diag-opt span{display:flex;align-items:center;justify-content:center;text-align:center;min-height:3.4rem;padding:.8em 1em;border:1px solid var(--line);font-size:1rem;line-height:1.2;transition:background-color .3s,border-color .3s,color .3s}
+.diag-opt:hover span{border-color:#fff;background:rgba(255,255,255,.08)}
+.diag-opt input:checked+span{background:var(--chalk);color:#000;border-color:var(--chalk)}
+.diag-opt input:focus-visible+span{outline:2px solid var(--signal);outline-offset:3px}
+.diag-nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+.diag-nav .ghost{cursor:pointer}
+.diag-nav .ghost[disabled]{opacity:.35;cursor:default;pointer-events:none}
+.diag-nav .diag-hint{color:var(--muted);font-size:.9rem}
+.diag-res{display:grid;gap:2rem}
+.diag-lvl{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1.4rem}
+.diag-lvl .tag{color:var(--muted)}
+.diag-lvl b{font-weight:300;font-size:clamp(2rem,4.6vw,4.2rem);line-height:1}
+.diag-lead{color:var(--paper-muted);max-width:60ch;margin-top:.8rem}
+.lv-baixo{color:var(--signal)}.lv-atencao{color:var(--gold)}.lv-alto{color:#ff8a7a}
+.diag-sec h3{font-family:var(--f-tag);font-weight:400;font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 .8rem}
+.diag-groups,.diag-prio{border-top:1px solid var(--paper-line)}
+.diag-g{display:grid;grid-template-columns:minmax(9rem,1.1fr) 2fr minmax(5rem,auto);gap:1rem;align-items:center;padding:.95rem 0;border-bottom:1px solid var(--paper-line)}
+.diag-g .meter{height:6px;background:rgba(255,255,255,.12)}
+.diag-g .meter i{display:block;height:100%;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.diag-g .tag{text-align:right}
+.fill-baixo{background:var(--signal)}.fill-atencao{background:var(--gold)}.fill-alto{background:#ff8a7a}
+.diag-prio li{display:grid;grid-template-columns:3.2rem 1fr;gap:1rem;padding:1.05rem 0;border-bottom:1px solid var(--paper-line)}
+.diag-prio .tag{color:var(--paper-muted);padding-top:.15rem}
+.diag-prio b{display:block;font-weight:400;font-size:1.1rem;line-height:1.2;margin-bottom:.3rem}
+.diag-prio span.x{color:var(--paper-muted);font-size:.96rem;line-height:1.5}
+.diag-none{color:var(--paper-muted);padding:1rem 0;border-top:1px solid var(--paper-line);border-bottom:1px solid var(--paper-line)}
+.diag-sum{width:100%;min-height:11rem;background:rgba(0,0,0,.35);color:var(--chalk);border:1px solid var(--line);padding:1rem;font:inherit;font-size:.92rem;line-height:1.55;resize:vertical}
+.diag-send{display:flex;flex-wrap:wrap;align-items:center;gap:1rem}
+.diag-msg{color:var(--signal);font-size:.95rem;min-height:1.4em}
+.diag-fine{color:var(--muted);font-size:.88rem;max-width:70ch;line-height:1.5}
+@media (max-width:760px){.diag-opts{grid-template-columns:1fr 1fr}.diag-g{grid-template-columns:1fr;gap:.5rem}.diag-g .tag{text-align:left}}
+@media (prefers-reduced-motion:reduce){.diag-bar i,.diag-g .meter i{transition:none}}
 /* motion: reveals seguem as specs do Vesper (easeOutQuint, blur-in); só ativam com JS */
 .js .rv{opacity:0;transform:translateY(20px);filter:blur(10px);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1),filter 1s cubic-bezier(.22,1,.36,1);transition-delay:var(--d,0ms)}
 .js .rv.card{transform:perspective(1400px) rotateX(12deg) scale(.94);transform-origin:50% 100%;filter:blur(14px);transition-duration:1.2s}
@@ -370,7 +426,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
       <a href="#ia">IA</a>
       <a href="#metodo">Método</a>
     </nav>
-    <a class="ghost" href="#contato">Contato<i class="dot"></i></a>
+    <a class="ghost signal" href="https://wa.me/message/FOC6X542FG23I1" target="_blank" rel="noopener">WhatsApp<i class="dot"></i></a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="sheet" aria-label="Abrir menu"><span></span><span></span></button>
   </div>
   <nav id="sheet" class="sheet" hidden aria-label="Principal">
@@ -380,6 +436,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
     <a href="#ia">IA</a>
     <a href="#metodo">Método</a>
     <a class="ghost" href="#contato">Contato<i class="dot"></i></a>
+    <a class="ghost signal" href="https://wa.me/message/FOC6X542FG23I1" target="_blank" rel="noopener">WhatsApp<i class="dot"></i></a>
   </nav>
 </header>
 
@@ -392,10 +449,10 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
       <h1 id="h-hero" class="display rise d2">Processos que <span class="hl">andam.</span> Sistemas que <span class="hl">conversam.</span></h1>
       <p class="lead rise d3">Mais de dez anos desenhando workflows, portais e integrações no TOTVS Fluig, conectados a Datasul, Protheus, RM e a outros sistemas corporativos.</p>
       <p class="hero-note rise d4">Integro o Fluig a CRMs e ERPs por API REST, Web Services e JDBC. Também integro a plataforma SCOD, de gestão de IPTU e taxas, por API REST e Dataset Sync do Fluig. Automatizo processos com arquivos CNAB, gero PDFs automaticamente e capturo XML da SEFAZ para dentro do Fluig.</p>
-      <div class="rise d4">
-        <a class="cta" href="#trabalhos"><span>Ver trabalhos</span>
-          
-        </a>
+      <p class="hero-avail rise d4">Aceitando novos projetos e sustentação</p>
+      <div class="rise d4 hero-actions">
+        <a class="cta" href="#trabalhos"><span>Ver trabalhos</span></a>
+        <a class="cta wa" href="https://wa.me/message/FOC6X542FG23I1" target="_blank" rel="noopener"><span>Falar no WhatsApp</span></a>
       </div>
     </div>
     <ul class="hero-tags tag rise d5" aria-label="Áreas de atuação">
@@ -449,9 +506,10 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
         <span class="tag" style="color:var(--paper-muted)">[ Para quem já usa Fluig ]</span>
         <h2 id="h-hc" class="display">Fluig <span class="hl">Health Check</span></h2>
         <p>Avaliação de ambientes em produção: workflows, widgets, integrações, customizações, documentação, arquitetura, riscos e processos que ninguém usa mais. O resultado mostra o que corrigir primeiro e por quê.</p>
-        <a class="cta inv" href="#contato"><span>Pedir um diagnóstico</span>
-          
-        </a>
+        <div class="hc-actions">
+          <a class="cta inv" href="#diagnostico"><span>Fazer o mini-diagnóstico</span></a>
+          <a class="cta wa" href="https://wa.me/message/FOC6X542FG23I1" target="_blank" rel="noopener"><span>Pedir pelo WhatsApp</span></a>
+        </div>
       </div>
       <div class="col">
         <span class="tag" style="color:var(--paper-muted)">[ O que você recebe ]</span>
@@ -462,6 +520,29 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
           <li><span class="tag">04</span><span class="t">Roadmap de melhorias</span></li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="diagnostico" class="sec" style="padding-top:0" aria-labelledby="h-diag">
+  <div class="wrap">
+    <div class="head"><span class="tag">[ Mini-diagnóstico ]</span>
+      <div class="head-main"><h2 id="h-diag" class="display">Seu Fluig está <span class="hl">saudável?</span></h2>
+        <p>Dez perguntas, sem cadastro. O resultado é uma triagem inicial para você ver onde olhar primeiro. O Health Check completo analisa o ambiente de verdade.</p></div>
+    </div>
+    <div class="paper diag" id="diag" data-wa="https://wa.me/message/FOC6X542FG23I1">
+      <noscript><p>O mini-diagnóstico precisa de JavaScript. Se preferir, <a href="https://wa.me/message/FOC6X542FG23I1" target="_blank" rel="noopener" style="text-decoration:underline">fale comigo no WhatsApp</a>.</p></noscript>
+      <div id="diag-quiz" hidden>
+        <div class="diag-top"><span class="tag" id="diag-grp"></span><span class="tag" id="diag-cnt"></span></div>
+        <div class="diag-bar" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="10" aria-valuenow="1"><i id="diag-fill"></i></div>
+        <div id="diag-stage" style="margin-top:1.6rem"></div>
+        <div class="diag-nav" style="margin-top:1.6rem">
+          <button type="button" class="ghost" id="diag-back">Voltar</button>
+          <span class="diag-hint" id="diag-hint">Escolha uma resposta para continuar.</span>
+          <button type="button" class="ghost on" id="diag-next" disabled>Próxima</button>
+        </div>
+      </div>
+      <div id="diag-result" class="diag-res" hidden></div>
     </div>
   </div>
 </section>
@@ -785,16 +866,18 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   <div class="wrap">
     <h2 class="display">Vamos olhar o seu <span class="hl">processo.</span></h2>
     <div class="contact-cta">
+      <a class="cta wa" href="https://wa.me/message/FOC6X542FG23I1" target="_blank" rel="noopener"><span>Falar no WhatsApp</span></a>
       <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfCZLlZY1_fSewDHxSJaZ7W-RpC3gOnU83GaV1EcxF_AHoSPQ/viewform?usp=publish-editor" target="_blank" rel="noopener"><span>Preencher a ficha</span></a>
+      <a class="cta" href="mailto:rca0261.negocios@gmail.com?subject=Contato%20pelo%20portf%C3%B3lio%20Fluig"><span>Enviar e-mail</span></a>
     </div>
-    <p class="note">Conte o nome da empresa, quem fala com você e como chegar até você. Abre numa nova aba.</p>
+    <p class="note">WhatsApp e e-mail abrem direto. A ficha abre numa nova aba: conte o nome da empresa, quem fala com você e como chegar até você.</p>
     <div class="foot">
       <div class="id">
         <a class="brand" href="#topo"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M22 82 L50 18 L78 82" fill="none" stroke="#39FF7A" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="61" r="9" fill="#E3A92B"/></svg><span>Ricardo Andrade</span></a>
         <p class="tag">Consultoria em processos, automação, integração e dados</p>
       </div>
       <nav aria-label="Rodapé">
-        <div><p>Navegar</p><ul><li><a href="#solucoes">Soluções</a></li><li><a href="#trabalhos">Trabalhos</a></li><li><a href="#integracoes">Integrações</a></li><li><a href="#metodo">Método</a></li></ul></div>
+        <div><p>Navegar</p><ul><li><a href="#solucoes">Soluções</a></li><li><a href="#trabalhos">Trabalhos</a></li><li><a href="#integracoes">Integrações</a></li><li><a href="#diagnostico">Diagnóstico</a></li><li><a href="#metodo">Método</a></li></ul></div>
         <div><p>Tecnologias</p><ul><li>TOTVS Fluig</li><li>REST e SOAP</li><li>SQL Server</li><li>n8n</li><li>API do Claude</li></ul></div>
       </nav>
     </div>
@@ -816,7 +899,7 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   var rvReduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!rvReduce){
     document.documentElement.classList.add('js');
-    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.partner','card'],['.wf-n','card'],['.wf-diagram','card'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
+    var rvSets=[['.sol article','card'],['.vid','card'],['.stat','rv'],['.head','rv'],['.faq','card'],['.hc','card'],['.diag','rv'],['.deliver li','rv'],['.rules li','rv'],['.map-list li','rv'],['.tl li','rv'],['.seg-list li','rv'],['.flow > div','card'],['.ai .copy > *','rv'],['.principle','rv'],['.partner','card'],['.wf-n','card'],['.wf-diagram','card'],['.contact-cta','rv'],['.foot > *','rv'],['.legal','rv'],['.note','rv']];
     var rvEls=[];
     rvSets.forEach(function(pair){
       var els=[].slice.call(document.querySelectorAll(pair[0]));
@@ -922,4 +1005,135 @@ footer h2{text-align:center;margin-inline:auto;max-width:16ch}
   if('IntersectionObserver' in window){new IntersectionObserver(function(es){vis=es[0].isIntersecting;if(vis&&!raf&&!reduce)raf=requestAnimationFrame(loop)}).observe(cv)}
   if(reduce){draw(performance.now()+2000)}else{raf=requestAnimationFrame(loop)}
 })();
+</script>
+<script>
+(function(){
+  var root=document.getElementById('diag');if(!root)return;
+  var WA=root.getAttribute('data-wa');
+  var quiz=document.getElementById('diag-quiz'),res=document.getElementById('diag-result'),stage=document.getElementById('diag-stage');
+  var grpEl=document.getElementById('diag-grp'),cntEl=document.getElementById('diag-cnt'),fill=document.getElementById('diag-fill');
+  var bar=quiz.querySelector('.diag-bar'),back=document.getElementById('diag-back'),next=document.getElementById('diag-next'),hint=document.getElementById('diag-hint');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var G=['Workflows','Integrações','Formulários e widgets','Governança e visibilidade'];
+  /* g = índice do grupo; ok = o que uma resposta "Sim" significa; fix = o que olhar primeiro se houver risco */
+  var Q=[
+    {g:0,q:'Você sabe quais processos do Fluig estão sem uso há mais de 6 meses?',why:'Processo parado também precisa de manutenção, aparece em atualização e confunde quem usa.',fix:'Levantar processos e formulários sem solicitações recentes e decidir o que arquivar, para reduzir o que precisa de manutenção.'},
+    {g:0,q:'Os workflows em produção têm documentação atualizada (fluxo, regras de alçada e responsáveis)?',why:'Sem documentação, cada mudança depende da memória de quem mexeu por último.',fix:'Documentar fluxo, alçadas e responsáveis dos processos mais críticos antes de qualquer mudança.'},
+    {g:0,q:'Mudanças em workflows passam por um ambiente de homologação antes de ir para produção?',why:'Corrigir direto em produção funciona até o dia em que uma solicitação em andamento quebra.',fix:'Separar homologação e produção, com ponto de validação e caminho de volta definidos para cada mudança.'},
+    {g:1,q:'As integrações estão cadastradas como serviços no painel de controle do Fluig, e não fixas no código?',why:'Endereços e credenciais soltos no código dificultam trocar de ambiente e achar o que mudou.',fix:'Cadastrar as integrações como serviços no painel de controle, em vez de URLs e credenciais dentro do código.'},
+    {g:1,q:'Se a integração com o ERP falha, o processo avisa alguém e permite reenviar sem duplicar o lançamento?',why:'Reenviar sem controle é o jeito mais comum de lançar a mesma nota duas vezes.',fix:'Tratar erro de integração com aviso ao responsável e reenvio idempotente, para que reenviar não duplique o lançamento.'},
+    {g:1,q:'Usuário e senha de integração ficam fora do código e podem ser trocados sem alterar o processo?',why:'Quando a senha do ERP muda, o processo não deveria precisar de nova versão.',fix:'Tirar usuário e senha do código e centralizar no cadastro de serviços, com troca sem alterar o processo.'},
+    {g:2,q:'Os formulários seguem um padrão único entre os processos (nomes de campo, validação e estilo)?',why:'Padrão diferente em cada formulário multiplica o custo de qualquer ajuste.',fix:'Definir um padrão de campos, validação e estilo e aplicar primeiro nos formulários mais usados.'},
+    {g:2,q:'Você sabe quais widgets e customizações podem quebrar numa atualização de versão do Fluig?',why:'Atualizar sem esse mapa costuma terminar em correção emergencial.',fix:'Mapear widgets e customizações por versão do Fluig e testar em homologação antes de cada atualização.'},
+    {g:3,q:'Existe um responsável definido para cada processo e para cada integração?',why:'Sem dono, o problema espera até alguém reclamar.',fix:'Nomear um responsável por processo e por integração, com quem acionar quando algo falha.'},
+    {g:3,q:'Você consegue ver onde o processo trava (tempo por etapa, solicitações atrasadas) sem montar planilha?',why:'O que não se mede aparece só no fechamento do mês.',fix:'Criar um painel de acompanhamento por etapa e prazo, para ver o gargalo sem planilha.'}
+  ];
+  /* risco por resposta: Sim 0, Em parte 1, Não 2, Não sei 2 (sem visibilidade é tratado como risco) */
+  var OPT=[['Sim',0],['Em parte',1],['Não',2],['Não sei',2]];
+  var LV=[{k:'baixo',t:'Baixo'},{k:'atencao',t:'Atenção'},{k:'alto',t:'Alto'}];
+  var LEAD=[
+    'Suas respostas indicam um ambiente organizado. Isso não substitui olhar o ambiente real: o que parece certo na teoria costuma esconder exceções em produção.',
+    'Há pontos que merecem olhar com calma antes de virarem incidente.',
+    'Há vários pontos sem controle ou sem visibilidade. Vale priorizar antes de qualquer nova mudança em produção.'
+  ];
+  var ans=[],cur=0,userMoved=false;
+  function lvl(p,m){var r=m?p/m:0;return r<.25?0:(r<.6?1:2)}
+  function pct(p,m){return m?Math.round(p/m*100):0}
+
+  function show(quizOn){quiz.hidden=!quizOn;res.hidden=quizOn}
+
+  function renderQ(){
+    show(true);
+    var q=Q[cur];
+    grpEl.textContent='[ '+G[q.g]+' ]';
+    cntEl.textContent='Pergunta '+(cur+1)+' de '+Q.length;
+    fill.style.width=((cur+1)/Q.length*100)+'%';
+    bar.setAttribute('aria-valuenow',String(cur+1));
+    var h='<fieldset class="diag-q"><legend tabindex="-1">'+q.q+'</legend><p class="diag-why">'+q.why+'</p><div class="diag-opts">';
+    OPT.forEach(function(o,k){
+      h+='<label class="diag-opt"><input type="radio" name="dq" value="'+k+'"'+(ans[cur]===k?' checked':'')+'><span>'+o[0]+'</span></label>';
+    });
+    h+='</div></fieldset>';
+    stage.innerHTML=h;
+    back.style.visibility=cur===0?'hidden':'visible';
+    next.textContent=cur===Q.length-1?'Ver resultado':'Próxima';
+    syncNext();
+    [].forEach.call(stage.querySelectorAll('input'),function(inp){
+      inp.addEventListener('change',function(){ans[cur]=+inp.value;syncNext()});
+    });
+    if(userMoved){var lg=stage.querySelector('legend');if(lg)lg.focus({preventScroll:true})}
+  }
+  function syncNext(){
+    var ok=ans[cur]!=null;
+    next.disabled=!ok;
+    hint.style.visibility=ok?'hidden':'visible';
+  }
+  next.addEventListener('click',function(){
+    if(ans[cur]==null)return;
+    userMoved=true;
+    if(cur<Q.length-1){cur++;renderQ()}else{renderResult()}
+  });
+  back.addEventListener('click',function(){if(cur>0){userMoved=true;cur--;renderQ()}});
+
+  function renderResult(){
+    var gs=G.map(function(){return{p:0,m:0}}),tp=0,tm=0;
+    Q.forEach(function(q,k){var r=OPT[ans[k]][1];gs[q.g].p+=r;gs[q.g].m+=2;tp+=r;tm+=2});
+    var ov=lvl(tp,tm);
+    var prio=Q.map(function(q,k){return{k:k,r:OPT[ans[k]][1]}}).filter(function(x){return x.r>0})
+      .sort(function(a,b){return b.r-a.r||a.k-b.k}).slice(0,3);
+
+    var h='<div class="diag-lvl"><span class="tag">Resultado da triagem &middot; risco geral</span><b class="lv-'+LV[ov].k+'">'+LV[ov].t+'</b></div>';
+    h+='<p class="diag-lead" style="margin-top:-1rem">'+LEAD[ov]+'</p>';
+    h+='<div class="diag-sec"><h3>Por área</h3><ul class="diag-groups">';
+    gs.forEach(function(g,i){
+      var l=lvl(g.p,g.m);
+      h+='<li class="diag-g"><span>'+G[i]+'</span><span class="meter" aria-hidden="true"><i class="fill-'+LV[l].k+'" style="width:'+Math.max(pct(g.p,g.m),4)+'%"></i></span><span class="tag lv-'+LV[l].k+'">'+LV[l].t+'</span></li>';
+    });
+    h+='</ul></div>';
+    h+='<div class="diag-sec"><h3>'+(prio.length?'Por onde começar':'Prioridades')+'</h3>';
+    if(prio.length){
+      h+='<ol class="diag-prio">';
+      prio.forEach(function(x,i){
+        var q=Q[x.k];
+        h+='<li><span class="tag">0'+(i+1)+'</span><div><b>'+G[q.g]+'</b><span class="x">'+q.fix+'</span></div></li>';
+      });
+      h+='</ol>';
+    }else{
+      h+='<p class="diag-none">Nenhum ponto de risco nas suas respostas. A triagem só mede o que você respondeu: o ambiente real pode ter exceções que só aparecem quando alguém abre os processos.</p>';
+    }
+    h+='</div>';
+
+    var lines=['Olá, Ricardo! Fiz o mini-diagnóstico do Fluig no seu portfólio.','','Risco geral: '+LV[ov].t+' (pontuação de risco '+tp+' de '+tm+')'];
+    gs.forEach(function(g,i){lines.push('- '+G[i]+': '+LV[lvl(g.p,g.m)].t)});
+    if(prio.length){lines.push('','Por onde começar:');prio.forEach(function(x,i){lines.push((i+1)+'. '+G[Q[x.k].g]+': '+Q[x.k].fix)})}
+    lines.push('','Quero conversar sobre um Health Check do meu ambiente.','Empresa:','Versão do Fluig:');
+    var summary=lines.join('\n');
+
+    h+='<div class="diag-sec"><h3>Resumo para enviar</h3><textarea class="diag-sum" id="diag-sum" readonly aria-label="Resumo do diagnóstico"></textarea></div>';
+    h+='<div class="diag-send"><a class="cta wa" id="diag-send" href="'+WA+'" target="_blank" rel="noopener"><span>Copiar resumo e abrir WhatsApp</span></a><a class="ghost" id="diag-mail" href="#">Enviar por e-mail</a><button type="button" class="ghost" id="diag-redo">Refazer</button></div>';
+    h+='<p class="diag-msg" id="diag-msg" role="status"></p>';
+    h+='<p class="diag-fine">Esta é uma triagem baseada só nas suas respostas; ela não analisa o ambiente. As respostas ficam no seu navegador e nada é enviado por esta página: o WhatsApp abre a conversa e o resumo vai copiado para você colar, ou você pode abrir o resumo no seu e-mail.</p>';
+    res.innerHTML=h;
+    var sum=document.getElementById('diag-sum');sum.value=summary;
+    document.getElementById('diag-mail').href='mailto:rca0261.negocios@gmail.com?subject='+encodeURIComponent('Mini-diagnóstico Fluig (portfólio)')+'&body='+encodeURIComponent(summary.replace(/\n/g,'\r\n'));
+    show(false);
+    fill.style.width='100%';bar.setAttribute('aria-valuenow',String(Q.length));
+
+    var msg=document.getElementById('diag-msg');
+    document.getElementById('diag-send').addEventListener('click',function(){
+      function ok(){msg.textContent='Resumo copiado. Cole na conversa do WhatsApp.'}
+      function fail(){sum.focus();sum.select();msg.textContent='Não consegui copiar sozinho. O texto acima está selecionado: copie e cole na conversa.'}
+      try{
+        if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(summary).then(ok,fail)}
+        else{sum.focus();sum.select();document.execCommand('copy')?ok():fail()}
+      }catch(e){fail()}
+    });
+    document.getElementById('diag-redo').addEventListener('click',function(){ans=[];cur=0;renderQ();root.scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'})});
+    root.scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'});
+    var top=res.querySelector('.diag-lvl b');if(top){top.setAttribute('tabindex','-1');top.focus({preventScroll:true})}
+  }
+  renderQ();
+})();
+
 </script>
